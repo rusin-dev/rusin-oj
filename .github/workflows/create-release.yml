@@ -1,0 +1,27 @@
+# .github/workflows/release.yml
+name: Create Release
+
+on:
+  push:
+    tags:
+      - 'v*'          # 匹配所有 v 开头的标签
+    tags-ignore:
+      - 'v0.*'        # 排除 v0.x.x 版本
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
+          draft: false
+          prerelease: false
+          generate_release_notes: true   # 自动生成基于 PR 的发行说明
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
