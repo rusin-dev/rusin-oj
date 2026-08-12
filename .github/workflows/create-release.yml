@@ -4,9 +4,8 @@ name: Create Release
 on:
   push:
     tags:
-      - 'v*'          # 匹配所有 v 开头的标签
-    tags-ignore:
-      - 'v0.*'        # 排除 v0.x.x 版本
+      - 'v*'        # 匹配所有 v 开头的标签
+      - '!v0.*'     # 但排除 v0.x.x 版本
 
 jobs:
   release:
@@ -22,6 +21,6 @@ jobs:
           name: Release ${{ github.ref_name }}
           draft: false
           prerelease: false
-          generate_release_notes: true   # 自动生成基于 PR 的发行说明
+          generate_release_notes: true   # 自动生成发行说明
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
