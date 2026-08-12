@@ -1,0 +1,34 @@
+[project]
+name = "rusin-oj"
+version = "0.1.0"
+
+# ===== Black 配置（代码格式化）=====
+[tool.black]
+line-length = 88
+target-version = ['py311']
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+    \.eggs
+  | \.git
+  | \.venv
+  | build
+  | dist
+)/
+'''
+
+# ===== Ruff 配置（代码检查，含 import 排序、lint）=====
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+exclude = [".git", ".venv", "build", "dist", "__pycache__"]
+
+[tool.ruff.lint]
+# 选择常用规则集（E/F/W 为基础，I 为 import 排序，N 为命名，UP 为 pyupgrade）
+select = ["E", "F", "W", "I", "N", "UP", "B", "C4"]
+ignore = ["E501"]    # 行宽由 Black 处理
+
+# ===== Bandit 配置（安全扫描）=====
+[tool.bandit]
+exclude_dirs = ["tests", ".venv"]
+skips = ["B101"]      # 跳过 assert 检查（根据项目需要调整）
