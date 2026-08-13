@@ -3,22 +3,20 @@ name: Code Quality & Auto-Fix PR
 on:
   pull_request:
     branches: [main, develop]
-  # 也可添加 workflow_dispatch 用于手动触发
 
-# 注意：由于我们使用 PAT（REPO_ACCESS_TOKEN），不再依赖 GITHUB_TOKEN 的权限，
-# 下面的 permissions 只是作为最佳实践，但实际推送/创建 PR 由 PAT 执行。
 permissions:
-  contents: read       # 最低要求，读取代码
-  pull-requests: write # 保留以便后续可能使用 GITHUB_TOKEN 的某些操作（可选）
+  contents: read
 
 jobs:
   quality:
     runs-on: ubuntu-latest
     steps:
+      # 1. 检出代码，但禁止持久化 GITHUB_TOKEN 凭据
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0   # 获取完整历史，便于 git 操作
+          fetch-depth: 0
+          persist-credentials: false   # 关键：防止 GITHUB_TOKEN 干扰后续 git push
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -30,11 +28,10 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install black ruff bandit
-          # 如果项目有依赖文件，一并安装（确保代码可被检查）
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           if [ -f pyproject.toml ]; then pip install -e .; fi
 
-      # 判断当前分支是否为自动修复分支（避免循环）
+      # 判断是否为自动修复分支（避免循环）
       - name: Determine if this is an auto-fix PR
         id: check_auto_fix
         run: |
@@ -45,7 +42,7 @@ jobs:
             echo "is_auto_fix=false" >> $GITHUB_OUTPUT
           fi
 
-      # ================= 自动修复分支：只检查，不修复 =================
+      # ========== 对自动修复 PR 仅做检查，不修复 ==========
       - name: Run checks (for auto-fix PRs)
         if: steps.check_auto_fix.outputs.is_auto_fix == 'true'
         run: |
@@ -53,8 +50,8 @@ jobs:
           ruff check .
           bandit -r . -ll --skip B101
 
-      # ================= 非自动修复分支：先检查，再修复 =================
-      # ----- 1. 检查（允许失败，仅用于报告）-----
+      # ========== 对普通 PR 执行自动修复 ==========
+      # 1. 先运行检查（仅报告，不阻断）
       - name: Run Black check (non-fix)
         if: steps.check_auto_fix.outputs.is_auto_fix == 'false'
         run: black --check . || true
@@ -67,54 +64,55 @@ jobs:
         if: steps.check_auto_fix.outputs.is_auto_fix == 'false'
         run: bandit -r . -ll --skip B101 || true
 
-      # ----- 2. 自动修复（Black + Ruff --fix）-----
+      # 2. 自动修复（Black + Ruff --fix）
       - name: Auto-fix with Black and Ruff
         if: steps.check_auto_fix.outputs.is_auto_fix == 'false'
         id: auto_fix
         run: |
           black .
-          # 允许 Ruff 失败，因为有些问题无法自动修复（如模块名不合法）
+          # Ruff 可能返回非零，但我们要继续执行
           ruff check --fix . || true
-          # 检查是否有任何变更
           if git diff --quiet; then
             echo "changes=false" >> $GITHUB_OUTPUT
           else
             echo "changes=true" >> $GITHUB_OUTPUT
           fi
 
-      # ----- 3. 如果有变更，创建新的 PR（使用 PAT）-----
+      # 3. 若有变更，创建新的 PR（使用 PAT）
       - name: Create auto-fix PR
         if: steps.auto_fix.outputs.changes == 'true' && steps.check_auto_fix.outputs.is_auto_fix == 'false'
         env:
-          GH_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}   # 使用 PAT（必须预先添加）
+          GH_TOKEN: ${{ secrets.REPO_ACCESS_TOKEN }}   # 需预先配置
           PR_NUMBER: ${{ github.event.pull_request.number }}
           BASE_BRANCH: ${{ github.event.pull_request.base.ref }}
+          REPO_NAME: ${{ github.repository }}
         run: |
-          # 安装 GitHub CLI（如果运行环境没有）
+          # 安装 GitHub CLI
           sudo apt-get update && sudo apt-get install -y gh
 
-          # 配置 Git 用户（用于提交）
+          # 配置 Git 用户
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
-          # 创建新分支（基于当前 PR 的 head）
+          # 将远程 URL 改为包含 PAT 的地址（关键修复）
+          git remote set-url origin https://x-access-token:${{ secrets.REPO_ACCESS_TOKEN }}@github.com/${REPO_NAME}.git
+
+          # 创建并切换新分支
           NEW_BRANCH="auto-fix/PR-${PR_NUMBER}-$(date +%s)"
           git checkout -b $NEW_BRANCH
+
+          # 提交所有改动
           git add -A
           git commit -m "Auto-fix: apply Black and Ruff fixes"
 
-          # 推送新分支（使用 PAT 确保有写权限）
-          git push https://x-access-token:${{ secrets.REPO_ACCESS_TOKEN }}@github.com/${{ github.repository }} $NEW_BRANCH
+          # 推送（现在使用正确的远程 URL）
+          git push origin $NEW_BRANCH
 
-          # 创建 PR
+          # 使用 gh 创建 PR（GH_TOKEN 已设置为 PAT）
           PR_TITLE="[auto-fix] Code style fixes for PR #${PR_NUMBER}"
-          PR_BODY="This PR was automatically created to apply Black formatting and Ruff auto-fixes to PR #${PR_NUMBER}.\\n\\nPlease review and merge if appropriate.\\n\\n> ⚠️ Some issues (like invalid module names) cannot be auto-fixed and will remain. They need manual attention."
-
+          PR_BODY="This PR automatically applies Black formatting and Ruff auto-fixes.\\n\\n> ⚠️ Some issues (like invalid module names) cannot be auto-fixed and will remain. Please review manually."
           gh pr create --base "$BASE_BRANCH" \
                        --head "$NEW_BRANCH" \
                        --title "$PR_TITLE" \
                        --body "$PR_BODY" \
                        --label "auto-fix"
-
-      # ----- 4. （可选）对于无法修复的错误，可在 PR 评论中提醒 -----
-      # 此步略，可根据需要扩展
