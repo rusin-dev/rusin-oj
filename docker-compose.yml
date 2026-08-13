@@ -1,0 +1,61 @@
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-rusin}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-rusin}
+      POSTGRES_DB: ${POSTGRES_DB:-rusin_oj}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-rusin} -d ${POSTGRES_DB:-rusin_oj}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  web:
+    build:
+      context: .
+      dockerfile: docker-compose.dockerfile
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-5000}:5000"
+    environment:
+      FLASK_ENV: production
+      SECRET_KEY: ${SECRET_KEY:?请设置 SECRET_KEY}
+      SESSION_COOKIE_SECURE: ${SESSION_COOKIE_SECURE:-true}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-rusin}:${POSTGRES_PASSWORD:-rusin}@db:5432/${POSTGRES_DB:-rusin_oj}
+      FLASHQ_DATABASE_URL: sqlite:////data/flashq.db
+      JUDGE_USE_DOCKER: ${JUDGE_USE_DOCKER:-true}
+      JUDGE_DOCKER_IMAGE: ${JUDGE_DOCKER_IMAGE:-judge-sandbox:latest}
+    volumes:
+      - appdata:/data
+    depends_on:
+      db:
+        condition: service_healthy
+
+  worker:
+    build:
+      context: .
+      dockerfile: docker-compose.dockerfile
+    restart: unless-stopped
+    command: flashq worker backend.tasks.judge_tasks:app --concurrency 4
+    environment:
+      FLASK_ENV: production
+      SECRET_KEY: ${SECRET_KEY:?请设置 SECRET_KEY}
+      DATABASE_URL: postgresql://${POSTGRES_USER:-rusin}:${POSTGRES_PASSWORD:-rusin}@db:5432/${POSTGRES_DB:-rusin_oj}
+      FLASHQ_DATABASE_URL: sqlite:////data/flashq.db
+      JUDGE_USE_DOCKER: ${JUDGE_USE_DOCKER:-true}
+      JUDGE_DOCKER_IMAGE: ${JUDGE_DOCKER_IMAGE:-judge-sandbox:latest}
+    volumes:
+      - appdata:/data
+      # 挂载 Docker 套接字，使判题沙箱可在宿主机 Docker 中启动
+      - /var/run/docker.sock:/var/run/docker.sock
+    depends_on:
+      db:
+        condition: service_healthy
+
+volumes:
+  pgdata:
+  appdata:
