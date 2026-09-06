@@ -11,6 +11,7 @@ class Cpp98SpecialJudgeClient(SpecialJudgeClient):
     """C++98 Special Judge"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -22,6 +23,8 @@ class Cpp98SpecialJudgeClient(SpecialJudgeClient):
         return 'cpp98(spj)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', source_file, '-o', f"{work_dir}/main",
             '-std=c++98',
@@ -32,9 +35,15 @@ class Cpp98SpecialJudgeClient(SpecialJudgeClient):
     def judge_command(
         self, judge_file: str, input_file: str, output_file: str, work_dir: str
     ) -> List[str]:
+        judge_file = self._validate_judge_file(judge_file)
+        input_file = self._validate_input_file(input_file)
+        output_file = self._validate_output_file(output_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [f"{work_dir}/spj", input_file, output_file]
 
     def comp_judge_command(self, judge_file: str, work_dir: str) -> Optional[List[str]]:
+        judge_file = self._validate_judge_file(judge_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', judge_file, '-o', f"{work_dir}/spj",
             '-std=c++98',
@@ -46,6 +55,7 @@ class Cpp11SpecialJudgeClient(SpecialJudgeClient):
     """C++11 Special Judge"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -57,6 +67,8 @@ class Cpp11SpecialJudgeClient(SpecialJudgeClient):
         return 'cpp11(spj)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', source_file, '-o', f"{work_dir}/main",
             '-std=c++11',
@@ -67,9 +79,15 @@ class Cpp11SpecialJudgeClient(SpecialJudgeClient):
     def judge_command(
         self, judge_file: str, input_file: str, output_file: str, work_dir: str
     ) -> List[str]:
+        judge_file = self._validate_judge_file(judge_file)
+        input_file = self._validate_input_file(input_file)
+        output_file = self._validate_output_file(output_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [f"{work_dir}/spj", input_file, output_file]
 
     def comp_judge_command(self, judge_file: str, work_dir: str) -> Optional[List[str]]:
+        judge_file = self._validate_judge_file(judge_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', judge_file, '-o', f"{work_dir}/spj",
             '-std=c++11',
@@ -81,6 +99,7 @@ class Cpp14SpecialJudgeClient(SpecialJudgeClient):
     """C++14 Special Judge"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -92,6 +111,8 @@ class Cpp14SpecialJudgeClient(SpecialJudgeClient):
         return 'cpp14(spj)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', source_file, '-o', f"{work_dir}/main",
             '-std=c++14',
@@ -102,9 +123,15 @@ class Cpp14SpecialJudgeClient(SpecialJudgeClient):
     def judge_command(
         self, judge_file: str, input_file: str, output_file: str, work_dir: str
     ) -> List[str]:
+        judge_file = self._validate_judge_file(judge_file)
+        input_file = self._validate_input_file(input_file)
+        output_file = self._validate_output_file(output_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [f"{work_dir}/spj", input_file, output_file]
 
     def comp_judge_command(self, judge_file: str, work_dir: str) -> Optional[List[str]]:
+        judge_file = self._validate_judge_file(judge_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', judge_file, '-o', f"{work_dir}/spj",
             '-std=c++14',
@@ -116,6 +143,7 @@ class Cpp17SpecialJudgeClient(SpecialJudgeClient):
     """C++17 Special Judge"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -127,6 +155,8 @@ class Cpp17SpecialJudgeClient(SpecialJudgeClient):
         return 'cpp17(spj)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', source_file, '-o', f"{work_dir}/main",
             '-std=c++17',
@@ -137,9 +167,15 @@ class Cpp17SpecialJudgeClient(SpecialJudgeClient):
     def judge_command(
         self, judge_file: str, input_file: str, output_file: str, work_dir: str
     ) -> List[str]:
+        judge_file = self._validate_judge_file(judge_file)
+        input_file = self._validate_input_file(input_file)
+        output_file = self._validate_output_file(output_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [f"{work_dir}/spj", input_file, output_file]
 
     def comp_judge_command(self, judge_file: str, work_dir: str) -> Optional[List[str]]:
+        judge_file = self._validate_judge_file(judge_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', judge_file, '-o', f"{work_dir}/spj",
             '-std=c++17',
@@ -151,6 +187,7 @@ class Cpp20SpecialJudgeClient(SpecialJudgeClient):
     """C++20 Special Judge"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -162,6 +199,8 @@ class Cpp20SpecialJudgeClient(SpecialJudgeClient):
         return 'cpp20(spj)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', source_file, '-o', f"{work_dir}/main",
             '-std=c++20',
@@ -172,9 +211,15 @@ class Cpp20SpecialJudgeClient(SpecialJudgeClient):
     def judge_command(
         self, judge_file: str, input_file: str, output_file: str, work_dir: str
     ) -> List[str]:
+        judge_file = self._validate_judge_file(judge_file)
+        input_file = self._validate_input_file(input_file)
+        output_file = self._validate_output_file(output_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [f"{work_dir}/spj", input_file, output_file]
 
     def comp_judge_command(self, judge_file: str, work_dir: str) -> Optional[List[str]]:
+        judge_file = self._validate_judge_file(judge_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', judge_file, '-o', f"{work_dir}/spj",
             '-std=c++20',
@@ -186,6 +231,7 @@ class Cpp23SpecialJudgeClient(SpecialJudgeClient):
     """C++23 Special Judge"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -197,6 +243,8 @@ class Cpp23SpecialJudgeClient(SpecialJudgeClient):
         return 'cpp23(spj)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', source_file, '-o', f"{work_dir}/main",
             '-std=c++23',
@@ -207,9 +255,15 @@ class Cpp23SpecialJudgeClient(SpecialJudgeClient):
     def judge_command(
         self, judge_file: str, input_file: str, output_file: str, work_dir: str
     ) -> List[str]:
+        judge_file = self._validate_judge_file(judge_file)
+        input_file = self._validate_input_file(input_file)
+        output_file = self._validate_output_file(output_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [f"{work_dir}/spj", input_file, output_file]
 
     def comp_judge_command(self, judge_file: str, work_dir: str) -> Optional[List[str]]:
+        judge_file = self._validate_judge_file(judge_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', judge_file, '-o', f"{work_dir}/spj",
             '-std=c++23',

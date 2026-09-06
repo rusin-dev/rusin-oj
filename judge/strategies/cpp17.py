@@ -7,6 +7,7 @@ class Cpp17JudgeClient(BaseJudgeClient):
     """C++17 无优化"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -18,6 +19,8 @@ class Cpp17JudgeClient(BaseJudgeClient):
         return 'cpp17'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', source_file, '-o', f"{work_dir}/main",
             '-std=c++17',
@@ -30,6 +33,7 @@ class Cpp17O1JudgeClient(BaseJudgeClient):
     """C++17 O1 优化"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -41,6 +45,8 @@ class Cpp17O1JudgeClient(BaseJudgeClient):
         return 'cpp17(with O1)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', source_file, '-o', f"{work_dir}/main",
             '-O1',
@@ -54,6 +60,7 @@ class Cpp17O2JudgeClient(BaseJudgeClient):
     """C++17 O2 优化"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -65,6 +72,8 @@ class Cpp17O2JudgeClient(BaseJudgeClient):
         return 'cpp17(with O2)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', source_file, '-o', f"{work_dir}/main",
             '-O2',
@@ -78,6 +87,7 @@ class Cpp17O3JudgeClient(BaseJudgeClient):
     """C++17 O3 优化"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -89,6 +99,8 @@ class Cpp17O3JudgeClient(BaseJudgeClient):
         return 'cpp17(with O3)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', source_file, '-o', f"{work_dir}/main",
             '-O3',

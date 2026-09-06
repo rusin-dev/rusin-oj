@@ -8,6 +8,7 @@ class JudgeClient(BaseJudgeClient):
         super().__init__()
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return ['python3', exec_file]
 
     @property
@@ -19,4 +20,6 @@ class JudgeClient(BaseJudgeClient):
         return 'python3'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return None

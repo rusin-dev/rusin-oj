@@ -10,6 +10,7 @@ class C99SpecialJudgeClient(SpecialJudgeClient):
     """C99 Special Judge"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -21,6 +22,8 @@ class C99SpecialJudgeClient(SpecialJudgeClient):
         return 'c99(spj)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'gcc', source_file, '-o', f"{work_dir}/main",
             '-std=c99',
@@ -31,9 +34,15 @@ class C99SpecialJudgeClient(SpecialJudgeClient):
     def judge_command(
         self, judge_file: str, input_file: str, output_file: str, work_dir: str
     ) -> List[str]:
+        judge_file = self._validate_judge_file(judge_file)
+        input_file = self._validate_input_file(input_file)
+        output_file = self._validate_output_file(output_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [f"{work_dir}/spj", input_file, output_file]
 
     def comp_judge_command(self, judge_file: str, work_dir: str) -> Optional[List[str]]:
+        judge_file = self._validate_judge_file(judge_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'gcc', judge_file, '-o', f"{work_dir}/spj",
             '-std=c99',
@@ -45,6 +54,7 @@ class C99InteractiveClient(InteractiveJudgeClient):
     """C99 交互题"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -83,6 +93,7 @@ class C11SpecialJudgeClient(SpecialJudgeClient):
     """C11 Special Judge"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -94,6 +105,8 @@ class C11SpecialJudgeClient(SpecialJudgeClient):
         return 'c11(spj)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'gcc', source_file, '-o', f"{work_dir}/main",
             '-std=c11',
@@ -104,9 +117,15 @@ class C11SpecialJudgeClient(SpecialJudgeClient):
     def judge_command(
         self, judge_file: str, input_file: str, output_file: str, work_dir: str
     ) -> List[str]:
+        judge_file = self._validate_judge_file(judge_file)
+        input_file = self._validate_input_file(input_file)
+        output_file = self._validate_output_file(output_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [f"{work_dir}/spj", input_file, output_file]
 
     def comp_judge_command(self, judge_file: str, work_dir: str) -> Optional[List[str]]:
+        judge_file = self._validate_judge_file(judge_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'gcc', judge_file, '-o', f"{work_dir}/spj",
             '-std=c11',
@@ -118,6 +137,7 @@ class C11InteractiveClient(InteractiveJudgeClient):
     """C11 交互题"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -156,6 +176,7 @@ class C17SpecialJudgeClient(SpecialJudgeClient):
     """C17 Special Judge"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -167,6 +188,8 @@ class C17SpecialJudgeClient(SpecialJudgeClient):
         return 'c17(spj)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'gcc', source_file, '-o', f"{work_dir}/main",
             '-std=c17',
@@ -177,9 +200,15 @@ class C17SpecialJudgeClient(SpecialJudgeClient):
     def judge_command(
         self, judge_file: str, input_file: str, output_file: str, work_dir: str
     ) -> List[str]:
+        judge_file = self._validate_judge_file(judge_file)
+        input_file = self._validate_input_file(input_file)
+        output_file = self._validate_output_file(output_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [f"{work_dir}/spj", input_file, output_file]
 
     def comp_judge_command(self, judge_file: str, work_dir: str) -> Optional[List[str]]:
+        judge_file = self._validate_judge_file(judge_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'gcc', judge_file, '-o', f"{work_dir}/spj",
             '-std=c17',
@@ -191,6 +220,7 @@ class C17InteractiveClient(InteractiveJudgeClient):
     """C17 交互题"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -229,6 +259,7 @@ class C23SpecialJudgeClient(SpecialJudgeClient):
     """C23 Special Judge"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -240,6 +271,8 @@ class C23SpecialJudgeClient(SpecialJudgeClient):
         return 'c23(spj)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'gcc', source_file, '-o', f"{work_dir}/main",
             '-std=c23',
@@ -250,9 +283,15 @@ class C23SpecialJudgeClient(SpecialJudgeClient):
     def judge_command(
         self, judge_file: str, input_file: str, output_file: str, work_dir: str
     ) -> List[str]:
+        judge_file = self._validate_judge_file(judge_file)
+        input_file = self._validate_input_file(input_file)
+        output_file = self._validate_output_file(output_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [f"{work_dir}/spj", input_file, output_file]
 
     def comp_judge_command(self, judge_file: str, work_dir: str) -> Optional[List[str]]:
+        judge_file = self._validate_judge_file(judge_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'gcc', judge_file, '-o', f"{work_dir}/spj",
             '-std=c23',
@@ -264,6 +303,7 @@ class C23InteractiveClient(InteractiveJudgeClient):
     """C23 交互题"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property

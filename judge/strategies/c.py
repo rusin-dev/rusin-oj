@@ -7,6 +7,7 @@ class C99JudgeClient(BaseJudgeClient):
     """C99 无优化"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -18,6 +19,8 @@ class C99JudgeClient(BaseJudgeClient):
         return 'c99'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'gcc', source_file, '-o', f"{work_dir}/main",
             '-std=c99',
@@ -30,6 +33,7 @@ class C99O1JudgeClient(BaseJudgeClient):
     """C99 O1 优化"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -41,6 +45,8 @@ class C99O1JudgeClient(BaseJudgeClient):
         return 'c99(with O1)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'gcc', source_file, '-o', f"{work_dir}/main",
             '-O1',
@@ -54,6 +60,7 @@ class C99O2JudgeClient(BaseJudgeClient):
     """C99 O2 优化"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -65,6 +72,8 @@ class C99O2JudgeClient(BaseJudgeClient):
         return 'c99(with O2)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'gcc', source_file, '-o', f"{work_dir}/main",
             '-O2',
@@ -78,6 +87,7 @@ class C99O3JudgeClient(BaseJudgeClient):
     """C99 O3 优化"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -89,6 +99,8 @@ class C99O3JudgeClient(BaseJudgeClient):
         return 'c99(with O3)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'gcc', source_file, '-o', f"{work_dir}/main",
             '-O3',
@@ -102,6 +114,7 @@ class C11JudgeClient(BaseJudgeClient):
     """C11 无优化"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -113,6 +126,8 @@ class C11JudgeClient(BaseJudgeClient):
         return 'c11'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'gcc', source_file, '-o', f"{work_dir}/main",
             '-std=c11',
@@ -125,6 +140,7 @@ class C11O1JudgeClient(BaseJudgeClient):
     """C11 O1 优化"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -136,6 +152,8 @@ class C11O1JudgeClient(BaseJudgeClient):
         return 'c11(with O1)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'gcc', source_file, '-o', f"{work_dir}/main",
             '-O1',
@@ -149,6 +167,7 @@ class C11O2JudgeClient(BaseJudgeClient):
     """C11 O2 优化"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -160,6 +179,8 @@ class C11O2JudgeClient(BaseJudgeClient):
         return 'c11(with O2)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'gcc', source_file, '-o', f"{work_dir}/main",
             '-O2',
@@ -173,6 +194,7 @@ class C11O3JudgeClient(BaseJudgeClient):
     """C11 O3 优化"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -184,6 +206,8 @@ class C11O3JudgeClient(BaseJudgeClient):
         return 'c11(with O3)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'gcc', source_file, '-o', f"{work_dir}/main",
             '-O3',
@@ -197,6 +221,7 @@ class C17JudgeClient(BaseJudgeClient):
     """C17 无优化"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -208,6 +233,8 @@ class C17JudgeClient(BaseJudgeClient):
         return 'c17'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'gcc', source_file, '-o', f"{work_dir}/main",
             '-std=c17',
@@ -220,6 +247,7 @@ class C17O1JudgeClient(BaseJudgeClient):
     """C17 O1 优化"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -231,6 +259,8 @@ class C17O1JudgeClient(BaseJudgeClient):
         return 'c17(with O1)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'gcc', source_file, '-o', f"{work_dir}/main",
             '-O1',
@@ -244,6 +274,7 @@ class C17O2JudgeClient(BaseJudgeClient):
     """C17 O2 优化"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -255,6 +286,8 @@ class C17O2JudgeClient(BaseJudgeClient):
         return 'c17(with O2)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'gcc', source_file, '-o', f"{work_dir}/main",
             '-O2',
@@ -268,6 +301,7 @@ class C17O3JudgeClient(BaseJudgeClient):
     """C17 O3 优化"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -279,6 +313,8 @@ class C17O3JudgeClient(BaseJudgeClient):
         return 'c17(with O3)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'gcc', source_file, '-o', f"{work_dir}/main",
             '-O3',
@@ -292,6 +328,7 @@ class C23JudgeClient(BaseJudgeClient):
     """C23 无优化"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -303,6 +340,8 @@ class C23JudgeClient(BaseJudgeClient):
         return 'c23'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'gcc', source_file, '-o', f"{work_dir}/main",
             '-std=c23',
@@ -315,6 +354,7 @@ class C23O1JudgeClient(BaseJudgeClient):
     """C23 O1 优化"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -326,6 +366,8 @@ class C23O1JudgeClient(BaseJudgeClient):
         return 'c23(with O1)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'gcc', source_file, '-o', f"{work_dir}/main",
             '-O1',
@@ -339,6 +381,7 @@ class C23O2JudgeClient(BaseJudgeClient):
     """C23 O2 优化"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -350,6 +393,8 @@ class C23O2JudgeClient(BaseJudgeClient):
         return 'c23(with O2)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'gcc', source_file, '-o', f"{work_dir}/main",
             '-O2',
@@ -363,6 +408,7 @@ class C23O3JudgeClient(BaseJudgeClient):
     """C23 O3 优化"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -374,6 +420,8 @@ class C23O3JudgeClient(BaseJudgeClient):
         return 'c23(with O3)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'gcc', source_file, '-o', f"{work_dir}/main",
             '-O3',

@@ -10,6 +10,7 @@ class RustSpecialJudgeClient(SpecialJudgeClient):
     """Rust Special Judge"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -21,6 +22,8 @@ class RustSpecialJudgeClient(SpecialJudgeClient):
         return 'rust(spj)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'rustc', source_file,
             '-o', f"{work_dir}/main",
@@ -30,9 +33,15 @@ class RustSpecialJudgeClient(SpecialJudgeClient):
     def judge_command(
         self, judge_file: str, input_file: str, output_file: str, work_dir: str
     ) -> List[str]:
+        judge_file = self._validate_judge_file(judge_file)
+        input_file = self._validate_input_file(input_file)
+        output_file = self._validate_output_file(output_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [f"{work_dir}/spj", input_file, output_file]
 
     def comp_judge_command(self, judge_file: str, work_dir: str) -> Optional[List[str]]:
+        judge_file = self._validate_judge_file(judge_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'rustc', judge_file,
             '-o', f"{work_dir}/spj",
@@ -44,6 +53,7 @@ class RustInteractiveClient(InteractiveJudgeClient):
     """Rust 交互题"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -55,6 +65,8 @@ class RustInteractiveClient(InteractiveJudgeClient):
         return 'rust(interactive)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'rustc', source_file,
             '-o', f"{work_dir}/main",
@@ -80,6 +92,7 @@ class RustO1SpecialJudgeClient(SpecialJudgeClient):
     """Rust O1 Special Judge"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -91,6 +104,8 @@ class RustO1SpecialJudgeClient(SpecialJudgeClient):
         return 'rust(with O1)(spj)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'rustc', source_file,
             '-o', f"{work_dir}/main",
@@ -101,9 +116,15 @@ class RustO1SpecialJudgeClient(SpecialJudgeClient):
     def judge_command(
         self, judge_file: str, input_file: str, output_file: str, work_dir: str
     ) -> List[str]:
+        judge_file = self._validate_judge_file(judge_file)
+        input_file = self._validate_input_file(input_file)
+        output_file = self._validate_output_file(output_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [f"{work_dir}/spj", input_file, output_file]
 
     def comp_judge_command(self, judge_file: str, work_dir: str) -> Optional[List[str]]:
+        judge_file = self._validate_judge_file(judge_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'rustc', judge_file,
             '-o', f"{work_dir}/spj",
@@ -116,6 +137,7 @@ class RustO2SpecialJudgeClient(SpecialJudgeClient):
     """Rust O2 Special Judge"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -127,6 +149,8 @@ class RustO2SpecialJudgeClient(SpecialJudgeClient):
         return 'rust(with O2)(spj)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'rustc', source_file,
             '-o', f"{work_dir}/main",
@@ -137,9 +161,15 @@ class RustO2SpecialJudgeClient(SpecialJudgeClient):
     def judge_command(
         self, judge_file: str, input_file: str, output_file: str, work_dir: str
     ) -> List[str]:
+        judge_file = self._validate_judge_file(judge_file)
+        input_file = self._validate_input_file(input_file)
+        output_file = self._validate_output_file(output_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [f"{work_dir}/spj", input_file, output_file]
 
     def comp_judge_command(self, judge_file: str, work_dir: str) -> Optional[List[str]]:
+        judge_file = self._validate_judge_file(judge_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'rustc', judge_file,
             '-o', f"{work_dir}/spj",
@@ -152,6 +182,7 @@ class RustO3SpecialJudgeClient(SpecialJudgeClient):
     """Rust O3 Special Judge"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -163,6 +194,8 @@ class RustO3SpecialJudgeClient(SpecialJudgeClient):
         return 'rust(with O3)(spj)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'rustc', source_file,
             '-o', f"{work_dir}/main",
@@ -173,9 +206,15 @@ class RustO3SpecialJudgeClient(SpecialJudgeClient):
     def judge_command(
         self, judge_file: str, input_file: str, output_file: str, work_dir: str
     ) -> List[str]:
+        judge_file = self._validate_judge_file(judge_file)
+        input_file = self._validate_input_file(input_file)
+        output_file = self._validate_output_file(output_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [f"{work_dir}/spj", input_file, output_file]
 
     def comp_judge_command(self, judge_file: str, work_dir: str) -> Optional[List[str]]:
+        judge_file = self._validate_judge_file(judge_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'rustc', judge_file,
             '-o', f"{work_dir}/spj",
@@ -188,6 +227,7 @@ class RustO1InteractiveClient(InteractiveJudgeClient):
     """Rust O1 交互题"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -199,6 +239,8 @@ class RustO1InteractiveClient(InteractiveJudgeClient):
         return 'rust(with O1)(interactive)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'rustc', source_file,
             '-o', f"{work_dir}/main",
@@ -226,6 +268,7 @@ class RustO2InteractiveClient(InteractiveJudgeClient):
     """Rust O2 交互题"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -237,6 +280,8 @@ class RustO2InteractiveClient(InteractiveJudgeClient):
         return 'rust(with O2)(interactive)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'rustc', source_file,
             '-o', f"{work_dir}/main",
@@ -264,6 +309,7 @@ class RustO3InteractiveClient(InteractiveJudgeClient):
     """Rust O3 交互题"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -275,6 +321,8 @@ class RustO3InteractiveClient(InteractiveJudgeClient):
         return 'rust(with O3)(interactive)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'rustc', source_file,
             '-o', f"{work_dir}/main",

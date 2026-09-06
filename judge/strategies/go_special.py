@@ -10,6 +10,7 @@ class GoSpecialJudgeClient(SpecialJudgeClient):
     """Go Special Judge"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -21,6 +22,8 @@ class GoSpecialJudgeClient(SpecialJudgeClient):
         return 'go(spj)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'go', 'build',
             '-o', f"{work_dir}/main",
@@ -30,9 +33,15 @@ class GoSpecialJudgeClient(SpecialJudgeClient):
     def judge_command(
         self, judge_file: str, input_file: str, output_file: str, work_dir: str
     ) -> List[str]:
+        judge_file = self._validate_judge_file(judge_file)
+        input_file = self._validate_input_file(input_file)
+        output_file = self._validate_output_file(output_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [f"{work_dir}/spj", input_file, output_file]
 
     def comp_judge_command(self, judge_file: str, work_dir: str) -> Optional[List[str]]:
+        judge_file = self._validate_judge_file(judge_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'go', 'build',
             '-o', f"{work_dir}/spj",
@@ -44,6 +53,7 @@ class GoInteractiveClient(InteractiveJudgeClient):
     """Go 交互题"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -55,6 +65,8 @@ class GoInteractiveClient(InteractiveJudgeClient):
         return 'go(interactive)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'go', 'build',
             '-o', f"{work_dir}/main",
@@ -80,6 +92,7 @@ class GoO1SpecialJudgeClient(SpecialJudgeClient):
     """Go O1 Special Judge"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -91,6 +104,8 @@ class GoO1SpecialJudgeClient(SpecialJudgeClient):
         return 'go(with O1)(spj)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'go', 'build',
             '-gcflags', '-N -l',
@@ -101,9 +116,15 @@ class GoO1SpecialJudgeClient(SpecialJudgeClient):
     def judge_command(
         self, judge_file: str, input_file: str, output_file: str, work_dir: str
     ) -> List[str]:
+        judge_file = self._validate_judge_file(judge_file)
+        input_file = self._validate_input_file(input_file)
+        output_file = self._validate_output_file(output_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [f"{work_dir}/spj", input_file, output_file]
 
     def comp_judge_command(self, judge_file: str, work_dir: str) -> Optional[List[str]]:
+        judge_file = self._validate_judge_file(judge_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'go', 'build',
             '-gcflags', '-N -l',
@@ -116,6 +137,7 @@ class GoO2SpecialJudgeClient(SpecialJudgeClient):
     """Go O2 Special Judge"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -127,6 +149,8 @@ class GoO2SpecialJudgeClient(SpecialJudgeClient):
         return 'go(with O2)(spj)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'go', 'build',
             '-o', f"{work_dir}/main",
@@ -136,9 +160,15 @@ class GoO2SpecialJudgeClient(SpecialJudgeClient):
     def judge_command(
         self, judge_file: str, input_file: str, output_file: str, work_dir: str
     ) -> List[str]:
+        judge_file = self._validate_judge_file(judge_file)
+        input_file = self._validate_input_file(input_file)
+        output_file = self._validate_output_file(output_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [f"{work_dir}/spj", input_file, output_file]
 
     def comp_judge_command(self, judge_file: str, work_dir: str) -> Optional[List[str]]:
+        judge_file = self._validate_judge_file(judge_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'go', 'build',
             '-o', f"{work_dir}/spj",
@@ -150,6 +180,7 @@ class GoO3SpecialJudgeClient(SpecialJudgeClient):
     """Go O3 Special Judge"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -161,6 +192,8 @@ class GoO3SpecialJudgeClient(SpecialJudgeClient):
         return 'go(with O3)(spj)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'go', 'build',
             '-ldflags', '-s -w',
@@ -171,9 +204,15 @@ class GoO3SpecialJudgeClient(SpecialJudgeClient):
     def judge_command(
         self, judge_file: str, input_file: str, output_file: str, work_dir: str
     ) -> List[str]:
+        judge_file = self._validate_judge_file(judge_file)
+        input_file = self._validate_input_file(input_file)
+        output_file = self._validate_output_file(output_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [f"{work_dir}/spj", input_file, output_file]
 
     def comp_judge_command(self, judge_file: str, work_dir: str) -> Optional[List[str]]:
+        judge_file = self._validate_judge_file(judge_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'go', 'build',
             '-ldflags', '-s -w',
@@ -186,6 +225,7 @@ class GoO1InteractiveClient(InteractiveJudgeClient):
     """Go O1 交互题"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -197,6 +237,8 @@ class GoO1InteractiveClient(InteractiveJudgeClient):
         return 'go(with O1)(interactive)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'go', 'build',
             '-gcflags', '-N -l',
@@ -224,6 +266,7 @@ class GoO2InteractiveClient(InteractiveJudgeClient):
     """Go O2 交互题"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -235,6 +278,8 @@ class GoO2InteractiveClient(InteractiveJudgeClient):
         return 'go(with O2)(interactive)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'go', 'build',
             '-o', f"{work_dir}/main",
@@ -260,6 +305,7 @@ class GoO3InteractiveClient(InteractiveJudgeClient):
     """Go O3 交互题"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -271,6 +317,8 @@ class GoO3InteractiveClient(InteractiveJudgeClient):
         return 'go(with O3)(interactive)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'go', 'build',
             '-ldflags', '-s -w',

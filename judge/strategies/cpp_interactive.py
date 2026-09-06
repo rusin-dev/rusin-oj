@@ -11,6 +11,7 @@ class Cpp98InteractiveClient(InteractiveJudgeClient):
     """C++98 交互题"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -22,6 +23,8 @@ class Cpp98InteractiveClient(InteractiveJudgeClient):
         return 'cpp98(interactive)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', source_file, '-o', f"{work_dir}/main",
             '-std=c++98',
@@ -33,11 +36,16 @@ class Cpp98InteractiveClient(InteractiveJudgeClient):
     def interactive_exec_command(
         self, exec_file: str, interact_file: str, work_dir: str
     ) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
+        interact_file = self._validate_interact_file(interact_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [f"{work_dir}/interact"]
 
     def comp_interact_command(
         self, interact_file: str, work_dir: str
     ) -> Optional[List[str]]:
+        interact_file = self._validate_interact_file(interact_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', interact_file, '-o', f"{work_dir}/interact",
             '-std=c++98',
@@ -49,6 +57,7 @@ class Cpp11InteractiveClient(InteractiveJudgeClient):
     """C++11 交互题"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -60,6 +69,8 @@ class Cpp11InteractiveClient(InteractiveJudgeClient):
         return 'cpp11(interactive)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', source_file, '-o', f"{work_dir}/main",
             '-std=c++11',
@@ -71,11 +82,16 @@ class Cpp11InteractiveClient(InteractiveJudgeClient):
     def interactive_exec_command(
         self, exec_file: str, interact_file: str, work_dir: str
     ) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
+        interact_file = self._validate_interact_file(interact_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [f"{work_dir}/interact"]
 
     def comp_interact_command(
         self, interact_file: str, work_dir: str
     ) -> Optional[List[str]]:
+        interact_file = self._validate_interact_file(interact_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', interact_file, '-o', f"{work_dir}/interact",
             '-std=c++11',
@@ -87,6 +103,7 @@ class Cpp14InteractiveClient(InteractiveJudgeClient):
     """C++14 交互题"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -98,6 +115,8 @@ class Cpp14InteractiveClient(InteractiveJudgeClient):
         return 'cpp14(interactive)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', source_file, '-o', f"{work_dir}/main",
             '-std=c++14',
@@ -109,11 +128,16 @@ class Cpp14InteractiveClient(InteractiveJudgeClient):
     def interactive_exec_command(
         self, exec_file: str, interact_file: str, work_dir: str
     ) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
+        interact_file = self._validate_interact_file(interact_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [f"{work_dir}/interact"]
 
     def comp_interact_command(
         self, interact_file: str, work_dir: str
     ) -> Optional[List[str]]:
+        interact_file = self._validate_interact_file(interact_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', interact_file, '-o', f"{work_dir}/interact",
             '-std=c++14',
@@ -125,6 +149,7 @@ class Cpp17InteractiveClient(InteractiveJudgeClient):
     """C++17 交互题"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -136,6 +161,8 @@ class Cpp17InteractiveClient(InteractiveJudgeClient):
         return 'cpp17(interactive)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', source_file, '-o', f"{work_dir}/main",
             '-std=c++17',
@@ -147,11 +174,16 @@ class Cpp17InteractiveClient(InteractiveJudgeClient):
     def interactive_exec_command(
         self, exec_file: str, interact_file: str, work_dir: str
     ) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
+        interact_file = self._validate_interact_file(interact_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [f"{work_dir}/interact"]
 
     def comp_interact_command(
         self, interact_file: str, work_dir: str
     ) -> Optional[List[str]]:
+        interact_file = self._validate_interact_file(interact_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', interact_file, '-o', f"{work_dir}/interact",
             '-std=c++17',
@@ -163,6 +195,7 @@ class Cpp20InteractiveClient(InteractiveJudgeClient):
     """C++20 交互题"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -174,6 +207,8 @@ class Cpp20InteractiveClient(InteractiveJudgeClient):
         return 'cpp20(interactive)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', source_file, '-o', f"{work_dir}/main",
             '-std=c++20',
@@ -185,11 +220,16 @@ class Cpp20InteractiveClient(InteractiveJudgeClient):
     def interactive_exec_command(
         self, exec_file: str, interact_file: str, work_dir: str
     ) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
+        interact_file = self._validate_interact_file(interact_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [f"{work_dir}/interact"]
 
     def comp_interact_command(
         self, interact_file: str, work_dir: str
     ) -> Optional[List[str]]:
+        interact_file = self._validate_interact_file(interact_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', interact_file, '-o', f"{work_dir}/interact",
             '-std=c++20',
@@ -201,6 +241,7 @@ class Cpp23InteractiveClient(InteractiveJudgeClient):
     """C++23 交互题"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -212,6 +253,8 @@ class Cpp23InteractiveClient(InteractiveJudgeClient):
         return 'cpp23(interactive)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', source_file, '-o', f"{work_dir}/main",
             '-std=c++23',
@@ -223,11 +266,16 @@ class Cpp23InteractiveClient(InteractiveJudgeClient):
     def interactive_exec_command(
         self, exec_file: str, interact_file: str, work_dir: str
     ) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
+        interact_file = self._validate_interact_file(interact_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [f"{work_dir}/interact"]
 
     def comp_interact_command(
         self, interact_file: str, work_dir: str
     ) -> Optional[List[str]]:
+        interact_file = self._validate_interact_file(interact_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', interact_file, '-o', f"{work_dir}/interact",
             '-std=c++23',

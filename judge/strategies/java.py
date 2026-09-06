@@ -16,6 +16,8 @@ class JudgeClient(BaseJudgeClient):
         return "Main.java"
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             "javac",
             source_file,
@@ -24,4 +26,5 @@ class JudgeClient(BaseJudgeClient):
         ]
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        work_dir = self._validate_work_dir(work_dir)
         return ["java", "-cp", work_dir, "Main"]

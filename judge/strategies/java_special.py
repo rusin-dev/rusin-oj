@@ -10,6 +10,7 @@ class JavaSpecialJudgeClient(SpecialJudgeClient):
     """Java Special Judge"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return ['java', '-cp', work_dir, 'Main']
 
     @property
@@ -21,6 +22,8 @@ class JavaSpecialJudgeClient(SpecialJudgeClient):
         return 'java(spj)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'javac', source_file,
             '-d', work_dir,
@@ -30,9 +33,15 @@ class JavaSpecialJudgeClient(SpecialJudgeClient):
     def judge_command(
         self, judge_file: str, input_file: str, output_file: str, work_dir: str
     ) -> List[str]:
+        judge_file = self._validate_judge_file(judge_file)
+        input_file = self._validate_input_file(input_file)
+        output_file = self._validate_output_file(output_file)
+        work_dir = self._validate_work_dir(work_dir)
         return ['java', '-cp', work_dir, 'SpecialJudge', input_file, output_file]
 
     def comp_judge_command(self, judge_file: str, work_dir: str) -> Optional[List[str]]:
+        judge_file = self._validate_judge_file(judge_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'javac', judge_file,
             '-d', work_dir,
@@ -44,6 +53,7 @@ class JavaInteractiveClient(InteractiveJudgeClient):
     """Java 交互题"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return ['java', '-cp', work_dir, 'Main']
 
     @property
@@ -55,6 +65,8 @@ class JavaInteractiveClient(InteractiveJudgeClient):
         return 'java(interactive)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'javac', source_file,
             '-d', work_dir,

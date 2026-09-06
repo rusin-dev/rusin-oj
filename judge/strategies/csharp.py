@@ -7,6 +7,7 @@ class CSharpJudgeClient(BaseJudgeClient):
     """C# (.NET)"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -18,6 +19,8 @@ class CSharpJudgeClient(BaseJudgeClient):
         return 'csharp'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'dotnet', 'build',
             '-c', 'Release',
@@ -30,6 +33,7 @@ class CSharpMonoJudgeClient(BaseJudgeClient):
     """C# (Mono)"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return ['mono', exec_file]
 
     @property
@@ -41,6 +45,8 @@ class CSharpMonoJudgeClient(BaseJudgeClient):
         return 'csharp(mono)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'mcs',
             '-out:', f"{work_dir}/main.exe",

@@ -10,6 +10,7 @@ class CSharpSpecialJudgeClient(SpecialJudgeClient):
     """C# Special Judge"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -21,6 +22,8 @@ class CSharpSpecialJudgeClient(SpecialJudgeClient):
         return 'csharp(spj)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'dotnet', 'build',
             '-c', 'Release',
@@ -31,9 +34,15 @@ class CSharpSpecialJudgeClient(SpecialJudgeClient):
     def judge_command(
         self, judge_file: str, input_file: str, output_file: str, work_dir: str
     ) -> List[str]:
+        judge_file = self._validate_judge_file(judge_file)
+        input_file = self._validate_input_file(input_file)
+        output_file = self._validate_output_file(output_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [f"{work_dir}/spj", input_file, output_file]
 
     def comp_judge_command(self, judge_file: str, work_dir: str) -> Optional[List[str]]:
+        judge_file = self._validate_judge_file(judge_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'dotnet', 'build',
             '-c', 'Release',
@@ -46,6 +55,7 @@ class CSharpInteractiveClient(InteractiveJudgeClient):
     """C# 交互题"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -57,6 +67,8 @@ class CSharpInteractiveClient(InteractiveJudgeClient):
         return 'csharp(interactive)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'dotnet', 'build',
             '-c', 'Release',
@@ -84,6 +96,7 @@ class CSharpMonoSpecialJudgeClient(SpecialJudgeClient):
     """C# (Mono) Special Judge"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return ['mono', exec_file]
 
     @property
@@ -95,6 +108,8 @@ class CSharpMonoSpecialJudgeClient(SpecialJudgeClient):
         return 'csharp(mono)(spj)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'mcs',
             '-out:', f"{work_dir}/main.exe",
@@ -104,9 +119,15 @@ class CSharpMonoSpecialJudgeClient(SpecialJudgeClient):
     def judge_command(
         self, judge_file: str, input_file: str, output_file: str, work_dir: str
     ) -> List[str]:
+        judge_file = self._validate_judge_file(judge_file)
+        input_file = self._validate_input_file(input_file)
+        output_file = self._validate_output_file(output_file)
+        work_dir = self._validate_work_dir(work_dir)
         return ['mono', f"{work_dir}/spj.exe", input_file, output_file]
 
     def comp_judge_command(self, judge_file: str, work_dir: str) -> Optional[List[str]]:
+        judge_file = self._validate_judge_file(judge_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'mcs',
             '-out:', f"{work_dir}/spj.exe",
@@ -118,6 +139,7 @@ class CSharpMonoInteractiveClient(InteractiveJudgeClient):
     """C# (Mono) 交互题"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return ['mono', exec_file]
 
     @property
@@ -129,6 +151,8 @@ class CSharpMonoInteractiveClient(InteractiveJudgeClient):
         return 'csharp(mono)(interactive)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'mcs',
             '-out:', f"{work_dir}/main.exe",

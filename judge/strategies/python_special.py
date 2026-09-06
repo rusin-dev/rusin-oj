@@ -10,6 +10,7 @@ class PythonSpecialJudgeClient(SpecialJudgeClient):
     """Python Special Judge"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return ['python3', exec_file]
 
     @property
@@ -26,6 +27,10 @@ class PythonSpecialJudgeClient(SpecialJudgeClient):
     def judge_command(
         self, judge_file: str, input_file: str, output_file: str, work_dir: str
     ) -> List[str]:
+        judge_file = self._validate_judge_file(judge_file)
+        input_file = self._validate_input_file(input_file)
+        output_file = self._validate_output_file(output_file)
+        work_dir = self._validate_work_dir(work_dir)
         return ['python3', judge_file, input_file, output_file]
 
     def comp_judge_command(self, judge_file: str, work_dir: str) -> Optional[List[str]]:
@@ -36,6 +41,7 @@ class PythonInteractiveClient(InteractiveJudgeClient):
     """Python 交互题"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return ['python3', exec_file]
 
     @property

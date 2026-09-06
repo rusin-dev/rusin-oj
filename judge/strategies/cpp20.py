@@ -7,6 +7,7 @@ class Cpp20JudgeClient(BaseJudgeClient):
     """C++20 无优化"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -18,6 +19,8 @@ class Cpp20JudgeClient(BaseJudgeClient):
         return 'cpp20'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', source_file, '-o', f"{work_dir}/main",
             '-std=c++20',
@@ -30,6 +33,7 @@ class Cpp20O1JudgeClient(BaseJudgeClient):
     """C++20 O1 优化"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -41,6 +45,8 @@ class Cpp20O1JudgeClient(BaseJudgeClient):
         return 'cpp20(with O1)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', source_file, '-o', f"{work_dir}/main",
             '-O1',
@@ -54,6 +60,7 @@ class Cpp20O2JudgeClient(BaseJudgeClient):
     """C++20 O2 优化"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -65,6 +72,8 @@ class Cpp20O2JudgeClient(BaseJudgeClient):
         return 'cpp20(with O2)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', source_file, '-o', f"{work_dir}/main",
             '-O2',
@@ -78,6 +87,7 @@ class Cpp20O3JudgeClient(BaseJudgeClient):
     """C++20 O3 优化"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -89,6 +99,8 @@ class Cpp20O3JudgeClient(BaseJudgeClient):
         return 'cpp20(with O3)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        source_file = self._validate_source_file(source_file)
+        work_dir = self._validate_work_dir(work_dir)
         return [
             'g++', source_file, '-o', f"{work_dir}/main",
             '-O3',
