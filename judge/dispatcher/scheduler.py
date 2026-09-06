@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 from typing import Dict, Optional, Type
 
-from ..strategies.base import BaseJudgeClient
+from ..strategies.base import BaseJudgeClient, SpecialJudgeClient, InteractiveJudgeClient
 from ..strategies import (
     # Python
     PythonJudgeClient,
@@ -62,6 +62,20 @@ from ..strategies import (
     Cpp23O1JudgeClient,
     Cpp23O2JudgeClient,
     Cpp23O3JudgeClient,
+    # C++ Special Judge
+    Cpp98SpecialJudgeClient,
+    Cpp11SpecialJudgeClient,
+    Cpp14SpecialJudgeClient,
+    Cpp17SpecialJudgeClient,
+    Cpp20SpecialJudgeClient,
+    Cpp23SpecialJudgeClient,
+    # C++ Interactive
+    Cpp98InteractiveClient,
+    Cpp11InteractiveClient,
+    Cpp14InteractiveClient,
+    Cpp17InteractiveClient,
+    Cpp20InteractiveClient,
+    Cpp23InteractiveClient,
     # Rust
     RustJudgeClient,
     RustO1JudgeClient,
@@ -131,6 +145,20 @@ STRATEGY_REGISTRY: Dict[str, Type[BaseJudgeClient]] = {
     "cpp23(with O1)": Cpp23O1JudgeClient,
     "cpp23(with O2)": Cpp23O2JudgeClient,
     "cpp23(with O3)": Cpp23O3JudgeClient,
+    # C++ Special Judge
+    "cpp98(spj)": Cpp98SpecialJudgeClient,
+    "cpp11(spj)": Cpp11SpecialJudgeClient,
+    "cpp14(spj)": Cpp14SpecialJudgeClient,
+    "cpp17(spj)": Cpp17SpecialJudgeClient,
+    "cpp20(spj)": Cpp20SpecialJudgeClient,
+    "cpp23(spj)": Cpp23SpecialJudgeClient,
+    # C++ Interactive
+    "cpp98(interactive)": Cpp98InteractiveClient,
+    "cpp11(interactive)": Cpp11InteractiveClient,
+    "cpp14(interactive)": Cpp14InteractiveClient,
+    "cpp17(interactive)": Cpp17InteractiveClient,
+    "cpp20(interactive)": Cpp20InteractiveClient,
+    "cpp23(interactive)": Cpp23InteractiveClient,
     # Rust
     "rust": RustJudgeClient,
     "rust(with O1)": RustO1JudgeClient,

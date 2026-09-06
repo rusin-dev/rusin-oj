@@ -240,7 +240,11 @@ def generate_language_config(
     # 遍历所有语言
     for language_name, detection in detection_results.items():
         # 如果是 C++ 系列，需要为每个优化级别创建配置
-        if language_name.startswith("cpp"):
+        if language_name.startswith("cpp") and not language_name.startswith("cpp_special") and not language_name.startswith("cpp_interactive"):
+            available = detection.get("available", False)
+            cpp_version = language_name[3:]  # e.g., "98", "11", "14", "17", "20", "23"
+
+            # 普通版本（含优化级别）
             for opt_level in OPT_LEVELS:
                 if opt_level:
                     full_name = f"{language_name}(with {opt_level})"
@@ -252,11 +256,10 @@ def generate_language_config(
                 # 构造策略类名
                 base_class = detection.get("strategy_class", "")
                 if strategy_suffix:
-                    strategy_class = f"Cpp{language_name[3:]}{strategy_suffix}JudgeClient"
+                    strategy_class = f"Cpp{cpp_version}{strategy_suffix}JudgeClient"
                 else:
                     strategy_class = base_class
 
-                available = detection.get("available", False)
                 lang_config = {
                     "name": full_name,
                     "extension": ".cpp",
@@ -271,6 +274,38 @@ def generate_language_config(
                     config["available_languages"].append(full_name)
                 else:
                     config["unavailable_languages"].append(full_name)
+
+            # Special Judge 版本
+            spj_name = f"cpp{cpp_version}(spj)"
+            spj_strategy = f"Cpp{cpp_version}SpecialJudgeClient"
+            config["languages"][spj_name] = {
+                "name": spj_name,
+                "extension": ".cpp",
+                "strategy_class": spj_strategy,
+                "available": available,
+                "std_flag": detection.get("std_flag"),
+                "type": "special_judge",
+            }
+            if available:
+                config["available_languages"].append(spj_name)
+            else:
+                config["unavailable_languages"].append(spj_name)
+
+            # 交互题版本
+            interactive_name = f"cpp{cpp_version}(interactive)"
+            interactive_strategy = f"Cpp{cpp_version}InteractiveClient"
+            config["languages"][interactive_name] = {
+                "name": interactive_name,
+                "extension": ".cpp",
+                "strategy_class": interactive_strategy,
+                "available": available,
+                "std_flag": detection.get("std_flag"),
+                "type": "interactive",
+            }
+            if available:
+                config["available_languages"].append(interactive_name)
+            else:
+                config["unavailable_languages"].append(interactive_name)
 
         # Rust 系列
         elif language_name == "rust":

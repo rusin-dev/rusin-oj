@@ -1,5 +1,5 @@
 # judge/strategies/__init__.py
-from .base import BaseJudgeClient
+from .base import BaseJudgeClient, SpecialJudgeClient, InteractiveJudgeClient
 from .python import JudgeClient as PythonJudgeClient
 from .java import JudgeClient as JavaJudgeClient
 
@@ -77,6 +77,26 @@ from .cpp23 import (
     Cpp23O3JudgeClient,
 )
 
+# C++ Special Judge
+from .cpp_special import (
+    Cpp98SpecialJudgeClient,
+    Cpp11SpecialJudgeClient,
+    Cpp14SpecialJudgeClient,
+    Cpp17SpecialJudgeClient,
+    Cpp20SpecialJudgeClient,
+    Cpp23SpecialJudgeClient,
+)
+
+# C++ Interactive
+from .cpp_interactive import (
+    Cpp98InteractiveClient,
+    Cpp11InteractiveClient,
+    Cpp14InteractiveClient,
+    Cpp17InteractiveClient,
+    Cpp20InteractiveClient,
+    Cpp23InteractiveClient,
+)
+
 # Rust
 from .rust import (
     RustJudgeClient,
@@ -94,8 +114,13 @@ from .go import (
 )
 
 __all__ = [
+    # 基类
     "BaseJudgeClient",
+    "SpecialJudgeClient",
+    "InteractiveJudgeClient",
+    # Python
     "PythonJudgeClient",
+    # Java
     "JavaJudgeClient",
     # C
     "C99JudgeClient",
@@ -147,6 +172,20 @@ __all__ = [
     "Cpp23O1JudgeClient",
     "Cpp23O2JudgeClient",
     "Cpp23O3JudgeClient",
+    # C++ Special Judge
+    "Cpp98SpecialJudgeClient",
+    "Cpp11SpecialJudgeClient",
+    "Cpp14SpecialJudgeClient",
+    "Cpp17SpecialJudgeClient",
+    "Cpp20SpecialJudgeClient",
+    "Cpp23SpecialJudgeClient",
+    # C++ Interactive
+    "Cpp98InteractiveClient",
+    "Cpp11InteractiveClient",
+    "Cpp14InteractiveClient",
+    "Cpp17InteractiveClient",
+    "Cpp20InteractiveClient",
+    "Cpp23InteractiveClient",
     # Rust
     "RustJudgeClient",
     "RustO1JudgeClient",
@@ -157,24 +196,4 @@ __all__ = [
     "GoO1JudgeClient",
     "GoO2JudgeClient",
     "GoO3JudgeClient",
-    # C
-    "C99JudgeClient",
-    "C99O1JudgeClient",
-    "C99O2JudgeClient",
-    "C99O3JudgeClient",
-    "C11JudgeClient",
-    "C11O1JudgeClient",
-    "C11O2JudgeClient",
-    "C11O3JudgeClient",
-    "C17JudgeClient",
-    "C17O1JudgeClient",
-    "C17O2JudgeClient",
-    "C17O3JudgeClient",
-    "C23JudgeClient",
-    "C23O1JudgeClient",
-    "C23O2JudgeClient",
-    "C23O3JudgeClient",
-    # C#
-    "CSharpJudgeClient",
-    "CSharpMonoJudgeClient",
 ]
