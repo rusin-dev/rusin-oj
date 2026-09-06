@@ -156,10 +156,6 @@ def _extract_version(output: str, command: str) -> Optional[str]:
     for line in lines:
         line = line.strip()
         # 尝试常见的版本号模式
-        # Python: Python 3.11.0
-        # G++: g++ (Ubuntu 11.3.0) 11.3.0
-        # Rust: rustc 1.75.0
-        # Go: go version go1.21.5 linux/amd64
         if any(
             keyword in line.lower()
             for keyword in ["python", "g++", "gcc", "rustc", "go version", "javac"]
@@ -224,7 +220,7 @@ def generate_language_config(
 ) -> Dict:
     """
     根据检测结果生成语言配置
-    包含所有可能的语言+优化级别组合
+    只生成基础语言配置，SPJ/Interactive 由调度层处理
     """
     if output_path is None:
         # 默认路径: 项目根目录/config/languages.json
@@ -239,12 +235,12 @@ def generate_language_config(
 
     # 遍历所有语言
     for language_name, detection in detection_results.items():
-        # 如果是 C++ 系列，需要为每个优化级别创建配置
-        if language_name.startswith("cpp") and not language_name.startswith("cpp_special") and not language_name.startswith("cpp_interactive"):
-            available = detection.get("available", False)
+        available = detection.get("available", False)
+
+        # C++ 系列
+        if language_name.startswith("cpp"):
             cpp_version = language_name[3:]  # e.g., "98", "11", "14", "17", "20", "23"
 
-            # 普通版本（含优化级别）
             for opt_level in OPT_LEVELS:
                 if opt_level:
                     full_name = f"{language_name}(with {opt_level})"
@@ -275,42 +271,8 @@ def generate_language_config(
                 else:
                     config["unavailable_languages"].append(full_name)
 
-            # Special Judge 版本
-            spj_name = f"cpp{cpp_version}(spj)"
-            spj_strategy = f"Cpp{cpp_version}SpecialJudgeClient"
-            config["languages"][spj_name] = {
-                "name": spj_name,
-                "extension": ".cpp",
-                "strategy_class": spj_strategy,
-                "available": available,
-                "std_flag": detection.get("std_flag"),
-                "type": "special_judge",
-            }
-            if available:
-                config["available_languages"].append(spj_name)
-            else:
-                config["unavailable_languages"].append(spj_name)
-
-            # 交互题版本
-            interactive_name = f"cpp{cpp_version}(interactive)"
-            interactive_strategy = f"Cpp{cpp_version}InteractiveClient"
-            config["languages"][interactive_name] = {
-                "name": interactive_name,
-                "extension": ".cpp",
-                "strategy_class": interactive_strategy,
-                "available": available,
-                "std_flag": detection.get("std_flag"),
-                "type": "interactive",
-            }
-            if available:
-                config["available_languages"].append(interactive_name)
-            else:
-                config["unavailable_languages"].append(interactive_name)
-
         # Rust 系列
         elif language_name == "rust":
-            available = detection.get("available", False)
-
             for opt_level in OPT_LEVELS:
                 if opt_level:
                     full_name = f"rust(with {opt_level})"
@@ -330,6 +292,7 @@ def generate_language_config(
                     "strategy_class": strategy_class,
                     "available": available,
                 }
+
                 config["languages"][full_name] = lang_config
 
                 if available:
@@ -337,46 +300,8 @@ def generate_language_config(
                 else:
                     config["unavailable_languages"].append(full_name)
 
-                # Special Judge
-                spj_name = f"{full_name}(spj)"
-                if strategy_suffix:
-                    spj_strategy = f"Rust{strategy_suffix}SpecialJudgeClient"
-                else:
-                    spj_strategy = "RustSpecialJudgeClient"
-                config["languages"][spj_name] = {
-                    "name": spj_name,
-                    "extension": ".rs",
-                    "strategy_class": spj_strategy,
-                    "available": available,
-                    "type": "special_judge",
-                }
-                if available:
-                    config["available_languages"].append(spj_name)
-                else:
-                    config["unavailable_languages"].append(spj_name)
-
-                # Interactive
-                interactive_name = f"{full_name}(interactive)"
-                if strategy_suffix:
-                    interactive_strategy = f"Rust{strategy_suffix}InteractiveClient"
-                else:
-                    interactive_strategy = "RustInteractiveClient"
-                config["languages"][interactive_name] = {
-                    "name": interactive_name,
-                    "extension": ".rs",
-                    "strategy_class": interactive_strategy,
-                    "available": available,
-                    "type": "interactive",
-                }
-                if available:
-                    config["available_languages"].append(interactive_name)
-                else:
-                    config["unavailable_languages"].append(interactive_name)
-
         # Go 系列
         elif language_name == "go":
-            available = detection.get("available", False)
-
             for opt_level in OPT_LEVELS:
                 if opt_level:
                     full_name = f"go(with {opt_level})"
@@ -396,6 +321,7 @@ def generate_language_config(
                     "strategy_class": strategy_class,
                     "available": available,
                 }
+
                 config["languages"][full_name] = lang_config
 
                 if available:
@@ -403,45 +329,8 @@ def generate_language_config(
                 else:
                     config["unavailable_languages"].append(full_name)
 
-                # Special Judge
-                spj_name = f"{full_name}(spj)"
-                if strategy_suffix:
-                    spj_strategy = f"Go{strategy_suffix}SpecialJudgeClient"
-                else:
-                    spj_strategy = "GoSpecialJudgeClient"
-                config["languages"][spj_name] = {
-                    "name": spj_name,
-                    "extension": ".go",
-                    "strategy_class": spj_strategy,
-                    "available": available,
-                    "type": "special_judge",
-                }
-                if available:
-                    config["available_languages"].append(spj_name)
-                else:
-                    config["unavailable_languages"].append(spj_name)
-
-                # Interactive
-                interactive_name = f"{full_name}(interactive)"
-                if strategy_suffix:
-                    interactive_strategy = f"Go{strategy_suffix}InteractiveClient"
-                else:
-                    interactive_strategy = "GoInteractiveClient"
-                config["languages"][interactive_name] = {
-                    "name": interactive_name,
-                    "extension": ".go",
-                    "strategy_class": interactive_strategy,
-                    "available": available,
-                    "type": "interactive",
-                }
-                if available:
-                    config["available_languages"].append(interactive_name)
-                else:
-                    config["unavailable_languages"].append(interactive_name)
-
         # C 系列
         elif language_name.startswith("c") and language_name != "csharp" and language_name != "csharp(mono)":
-            available = detection.get("available", False)
             c_version = language_name[1:]  # e.g., "99", "11", "17", "23"
 
             for opt_level in OPT_LEVELS:
@@ -466,6 +355,7 @@ def generate_language_config(
                     "available": available,
                     "std_flag": detection.get("std_flag"),
                 }
+
                 config["languages"][full_name] = lang_config
 
                 if available:
@@ -473,189 +363,38 @@ def generate_language_config(
                 else:
                     config["unavailable_languages"].append(full_name)
 
-                # Special Judge
-                spj_name = f"{full_name}(spj)"
-                if strategy_suffix:
-                    spj_strategy = f"C{c_version}{strategy_suffix}SpecialJudgeClient"
-                else:
-                    spj_strategy = f"C{c_version}SpecialJudgeClient"
-                config["languages"][spj_name] = {
-                    "name": spj_name,
-                    "extension": ".c",
-                    "strategy_class": spj_strategy,
-                    "available": available,
-                    "std_flag": detection.get("std_flag"),
-                    "type": "special_judge",
-                }
-                if available:
-                    config["available_languages"].append(spj_name)
-                else:
-                    config["unavailable_languages"].append(spj_name)
-
-                # Interactive
-                interactive_name = f"{full_name}(interactive)"
-                if strategy_suffix:
-                    interactive_strategy = f"C{c_version}{strategy_suffix}InteractiveClient"
-                else:
-                    interactive_strategy = f"C{c_version}InteractiveClient"
-                config["languages"][interactive_name] = {
-                    "name": interactive_name,
-                    "extension": ".c",
-                    "strategy_class": interactive_strategy,
-                    "available": available,
-                    "std_flag": detection.get("std_flag"),
-                    "type": "interactive",
-                }
-                if available:
-                    config["available_languages"].append(interactive_name)
-                else:
-                    config["unavailable_languages"].append(interactive_name)
-
         # C# 系列
         elif language_name in ["csharp", "csharp(mono)"]:
-            available = detection.get("available", False)
-            extension = ".cs"
+            lang_config = {
+                "name": language_name,
+                "extension": ".cs",
+                "strategy_class": detection.get("strategy_class", ""),
+                "available": available,
+            }
 
-            # 普通版本
+            config["languages"][language_name] = lang_config
+
+            if available:
+                config["available_languages"].append(language_name)
+            else:
+                config["unavailable_languages"].append(language_name)
+
+        # Python 和 Java
+        else:
+            extension = ".py" if language_name == "python3" else ".java"
             lang_config = {
                 "name": language_name,
                 "extension": extension,
                 "strategy_class": detection.get("strategy_class", ""),
                 "available": available,
             }
+
             config["languages"][language_name] = lang_config
+
             if available:
                 config["available_languages"].append(language_name)
             else:
                 config["unavailable_languages"].append(language_name)
-
-            # Special Judge
-            spj_name = f"{language_name}(spj)"
-            if language_name == "csharp":
-                spj_strategy = "CSharpSpecialJudgeClient"
-            else:
-                spj_strategy = "CSharpMonoSpecialJudgeClient"
-            config["languages"][spj_name] = {
-                "name": spj_name,
-                "extension": extension,
-                "strategy_class": spj_strategy,
-                "available": available,
-                "type": "special_judge",
-            }
-            if available:
-                config["available_languages"].append(spj_name)
-            else:
-                config["unavailable_languages"].append(spj_name)
-
-            # Interactive
-            interactive_name = f"{language_name}(interactive)"
-            if language_name == "csharp":
-                interactive_strategy = "CSharpInteractiveClient"
-            else:
-                interactive_strategy = "CSharpMonoInteractiveClient"
-            config["languages"][interactive_name] = {
-                "name": interactive_name,
-                "extension": extension,
-                "strategy_class": interactive_strategy,
-                "available": available,
-                "type": "interactive",
-            }
-            if available:
-                config["available_languages"].append(interactive_name)
-            else:
-                config["unavailable_languages"].append(interactive_name)
-
-        # Python
-        elif language_name == "python3":
-            available = detection.get("available", False)
-            extension = ".py"
-
-            # 普通版本
-            lang_config = {
-                "name": language_name,
-                "extension": extension,
-                "strategy_class": detection.get("strategy_class", ""),
-                "available": available,
-            }
-            config["languages"][language_name] = lang_config
-            if available:
-                config["available_languages"].append(language_name)
-            else:
-                config["unavailable_languages"].append(language_name)
-
-            # Special Judge
-            spj_name = f"{language_name}(spj)"
-            config["languages"][spj_name] = {
-                "name": spj_name,
-                "extension": extension,
-                "strategy_class": "PythonSpecialJudgeClient",
-                "available": available,
-                "type": "special_judge",
-            }
-            if available:
-                config["available_languages"].append(spj_name)
-            else:
-                config["unavailable_languages"].append(spj_name)
-
-            # Interactive
-            interactive_name = f"{language_name}(interactive)"
-            config["languages"][interactive_name] = {
-                "name": interactive_name,
-                "extension": extension,
-                "strategy_class": "PythonInteractiveClient",
-                "available": available,
-                "type": "interactive",
-            }
-            if available:
-                config["available_languages"].append(interactive_name)
-            else:
-                config["unavailable_languages"].append(interactive_name)
-
-        # Java
-        elif language_name == "java":
-            available = detection.get("available", False)
-            extension = ".java"
-
-            # 普通版本
-            lang_config = {
-                "name": language_name,
-                "extension": extension,
-                "strategy_class": detection.get("strategy_class", ""),
-                "available": available,
-            }
-            config["languages"][language_name] = lang_config
-            if available:
-                config["available_languages"].append(language_name)
-            else:
-                config["unavailable_languages"].append(language_name)
-
-            # Special Judge
-            spj_name = f"{language_name}(spj)"
-            config["languages"][spj_name] = {
-                "name": spj_name,
-                "extension": extension,
-                "strategy_class": "JavaSpecialJudgeClient",
-                "available": available,
-                "type": "special_judge",
-            }
-            if available:
-                config["available_languages"].append(spj_name)
-            else:
-                config["unavailable_languages"].append(spj_name)
-
-            # Interactive
-            interactive_name = f"{language_name}(interactive)"
-            config["languages"][interactive_name] = {
-                "name": interactive_name,
-                "extension": extension,
-                "strategy_class": "JavaInteractiveClient",
-                "available": available,
-                "type": "interactive",
-            }
-            if available:
-                config["available_languages"].append(interactive_name)
-            else:
-                config["unavailable_languages"].append(interactive_name)
 
     # 保存到 JSON 文件
     output_path = Path(output_path)

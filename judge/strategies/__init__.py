@@ -1,13 +1,11 @@
 # judge/strategies/__init__.py
-from .base import BaseJudgeClient, SpecialJudgeClient, InteractiveJudgeClient
+from .base import BaseJudgeClient
 
 # Python
 from .python import JudgeClient as PythonJudgeClient
-from .python_special import PythonSpecialJudgeClient, PythonInteractiveClient
 
 # Java
 from .java import JudgeClient as JavaJudgeClient
-from .java_special import JavaSpecialJudgeClient, JavaInteractiveClient
 
 # C
 from .c import (
@@ -29,30 +27,10 @@ from .c import (
     C23O3JudgeClient,
 )
 
-# C Special Judge & Interactive
-from .c_special import (
-    C99SpecialJudgeClient,
-    C99InteractiveClient,
-    C11SpecialJudgeClient,
-    C11InteractiveClient,
-    C17SpecialJudgeClient,
-    C17InteractiveClient,
-    C23SpecialJudgeClient,
-    C23InteractiveClient,
-)
-
 # C#
 from .csharp import (
     CSharpJudgeClient,
     CSharpMonoJudgeClient,
-)
-
-# C# Special Judge & Interactive
-from .csharp_special import (
-    CSharpSpecialJudgeClient,
-    CSharpInteractiveClient,
-    CSharpMonoSpecialJudgeClient,
-    CSharpMonoInteractiveClient,
 )
 
 # C++98
@@ -103,44 +81,12 @@ from .cpp23 import (
     Cpp23O3JudgeClient,
 )
 
-# C++ Special Judge
-from .cpp_special import (
-    Cpp98SpecialJudgeClient,
-    Cpp11SpecialJudgeClient,
-    Cpp14SpecialJudgeClient,
-    Cpp17SpecialJudgeClient,
-    Cpp20SpecialJudgeClient,
-    Cpp23SpecialJudgeClient,
-)
-
-# C++ Interactive
-from .cpp_interactive import (
-    Cpp98InteractiveClient,
-    Cpp11InteractiveClient,
-    Cpp14InteractiveClient,
-    Cpp17InteractiveClient,
-    Cpp20InteractiveClient,
-    Cpp23InteractiveClient,
-)
-
 # Rust
 from .rust import (
     RustJudgeClient,
     RustO1JudgeClient,
     RustO2JudgeClient,
     RustO3JudgeClient,
-)
-
-# Rust Special Judge & Interactive
-from .rust_special import (
-    RustSpecialJudgeClient,
-    RustInteractiveClient,
-    RustO1SpecialJudgeClient,
-    RustO1InteractiveClient,
-    RustO2SpecialJudgeClient,
-    RustO2InteractiveClient,
-    RustO3SpecialJudgeClient,
-    RustO3InteractiveClient,
 )
 
 # Go
@@ -151,31 +97,13 @@ from .go import (
     GoO3JudgeClient,
 )
 
-# Go Special Judge & Interactive
-from .go_special import (
-    GoSpecialJudgeClient,
-    GoInteractiveClient,
-    GoO1SpecialJudgeClient,
-    GoO1InteractiveClient,
-    GoO2SpecialJudgeClient,
-    GoO2InteractiveClient,
-    GoO3SpecialJudgeClient,
-    GoO3InteractiveClient,
-)
-
 __all__ = [
     # 基类
     "BaseJudgeClient",
-    "SpecialJudgeClient",
-    "InteractiveJudgeClient",
     # Python
     "PythonJudgeClient",
-    "PythonSpecialJudgeClient",
-    "PythonInteractiveClient",
     # Java
     "JavaJudgeClient",
-    "JavaSpecialJudgeClient",
-    "JavaInteractiveClient",
     # C
     "C99JudgeClient",
     "C99O1JudgeClient",
@@ -193,23 +121,9 @@ __all__ = [
     "C23O1JudgeClient",
     "C23O2JudgeClient",
     "C23O3JudgeClient",
-    # C Special Judge & Interactive
-    "C99SpecialJudgeClient",
-    "C99InteractiveClient",
-    "C11SpecialJudgeClient",
-    "C11InteractiveClient",
-    "C17SpecialJudgeClient",
-    "C17InteractiveClient",
-    "C23SpecialJudgeClient",
-    "C23InteractiveClient",
     # C#
     "CSharpJudgeClient",
     "CSharpMonoJudgeClient",
-    # C# Special Judge & Interactive
-    "CSharpSpecialJudgeClient",
-    "CSharpInteractiveClient",
-    "CSharpMonoSpecialJudgeClient",
-    "CSharpMonoInteractiveClient",
     # C++98
     "Cpp98JudgeClient",
     "Cpp98O1JudgeClient",
@@ -240,46 +154,14 @@ __all__ = [
     "Cpp23O1JudgeClient",
     "Cpp23O2JudgeClient",
     "Cpp23O3JudgeClient",
-    # C++ Special Judge
-    "Cpp98SpecialJudgeClient",
-    "Cpp11SpecialJudgeClient",
-    "Cpp14SpecialJudgeClient",
-    "Cpp17SpecialJudgeClient",
-    "Cpp20SpecialJudgeClient",
-    "Cpp23SpecialJudgeClient",
-    # C++ Interactive
-    "Cpp98InteractiveClient",
-    "Cpp11InteractiveClient",
-    "Cpp14InteractiveClient",
-    "Cpp17InteractiveClient",
-    "Cpp20InteractiveClient",
-    "Cpp23InteractiveClient",
     # Rust
     "RustJudgeClient",
     "RustO1JudgeClient",
     "RustO2JudgeClient",
     "RustO3JudgeClient",
-    # Rust Special Judge & Interactive
-    "RustSpecialJudgeClient",
-    "RustInteractiveClient",
-    "RustO1SpecialJudgeClient",
-    "RustO1InteractiveClient",
-    "RustO2SpecialJudgeClient",
-    "RustO2InteractiveClient",
-    "RustO3SpecialJudgeClient",
-    "RustO3InteractiveClient",
     # Go
     "GoJudgeClient",
     "GoO1JudgeClient",
     "GoO2JudgeClient",
     "GoO3JudgeClient",
-    # Go Special Judge & Interactive
-    "GoSpecialJudgeClient",
-    "GoInteractiveClient",
-    "GoO1SpecialJudgeClient",
-    "GoO1InteractiveClient",
-    "GoO2SpecialJudgeClient",
-    "GoO2InteractiveClient",
-    "GoO3SpecialJudgeClient",
-    "GoO3InteractiveClient",
 ]

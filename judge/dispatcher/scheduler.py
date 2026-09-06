@@ -1,21 +1,25 @@
 # judge/dispatcher/scheduler.py
 """
-语言调度模块 - 根据语言名称返回对应的判题策略实例
+语言调度模块 - 根据语言名称和题目类型返回对应的判题策略实例
+
+题目类型:
+- normal: 普通判题
+- spj: Special Judge（特殊判题）
+- interactive: 交互题
+
+流程: 前端传参 -> 中转站调度 -> 判题文件执行
 """
 import json
+from enum import Enum
 from pathlib import Path
-from typing import Dict, Optional, Type
+from typing import Dict, List, Optional, Type
 
-from ..strategies.base import BaseJudgeClient, SpecialJudgeClient, InteractiveJudgeClient
+from ..strategies.base import BaseJudgeClient
 from ..strategies import (
     # Python
     PythonJudgeClient,
-    PythonSpecialJudgeClient,
-    PythonInteractiveClient,
     # Java
     JavaJudgeClient,
-    JavaSpecialJudgeClient,
-    JavaInteractiveClient,
     # C
     C99JudgeClient,
     C99O1JudgeClient,
@@ -33,23 +37,9 @@ from ..strategies import (
     C23O1JudgeClient,
     C23O2JudgeClient,
     C23O3JudgeClient,
-    # C Special Judge & Interactive
-    C99SpecialJudgeClient,
-    C99InteractiveClient,
-    C11SpecialJudgeClient,
-    C11InteractiveClient,
-    C17SpecialJudgeClient,
-    C17InteractiveClient,
-    C23SpecialJudgeClient,
-    C23InteractiveClient,
     # C#
     CSharpJudgeClient,
     CSharpMonoJudgeClient,
-    # C# Special Judge & Interactive
-    CSharpSpecialJudgeClient,
-    CSharpInteractiveClient,
-    CSharpMonoSpecialJudgeClient,
-    CSharpMonoInteractiveClient,
     # C++98
     Cpp98JudgeClient,
     Cpp98O1JudgeClient,
@@ -80,168 +70,176 @@ from ..strategies import (
     Cpp23O1JudgeClient,
     Cpp23O2JudgeClient,
     Cpp23O3JudgeClient,
-    # C++ Special Judge
-    Cpp98SpecialJudgeClient,
-    Cpp11SpecialJudgeClient,
-    Cpp14SpecialJudgeClient,
-    Cpp17SpecialJudgeClient,
-    Cpp20SpecialJudgeClient,
-    Cpp23SpecialJudgeClient,
-    # C++ Interactive
-    Cpp98InteractiveClient,
-    Cpp11InteractiveClient,
-    Cpp14InteractiveClient,
-    Cpp17InteractiveClient,
-    Cpp20InteractiveClient,
-    Cpp23InteractiveClient,
     # Rust
     RustJudgeClient,
     RustO1JudgeClient,
     RustO2JudgeClient,
     RustO3JudgeClient,
-    # Rust Special Judge & Interactive
-    RustSpecialJudgeClient,
-    RustInteractiveClient,
-    RustO1SpecialJudgeClient,
-    RustO1InteractiveClient,
-    RustO2SpecialJudgeClient,
-    RustO2InteractiveClient,
-    RustO3SpecialJudgeClient,
-    RustO3InteractiveClient,
     # Go
     GoJudgeClient,
     GoO1JudgeClient,
     GoO2JudgeClient,
     GoO3JudgeClient,
-    # Go Special Judge & Interactive
-    GoSpecialJudgeClient,
-    GoInteractiveClient,
-    GoO1SpecialJudgeClient,
-    GoO1InteractiveClient,
-    GoO2SpecialJudgeClient,
-    GoO2InteractiveClient,
-    GoO3SpecialJudgeClient,
-    GoO3InteractiveClient,
 )
+
+
+class ProblemType(Enum):
+    """题目类型枚举"""
+    NORMAL = "normal"           # 普通判题
+    SPECIAL_JUDGE = "spj"       # Special Judge
+    INTERACTIVE = "interactive" # 交互题
 
 
 # 策略类注册表
 STRATEGY_REGISTRY: Dict[str, Type[BaseJudgeClient]] = {
     # Python
     "python3": PythonJudgeClient,
-    "python3(spj)": PythonSpecialJudgeClient,
-    "python3(interactive)": PythonInteractiveClient,
     # Java
     "java": JavaJudgeClient,
-    "java(spj)": JavaSpecialJudgeClient,
-    "java(interactive)": JavaInteractiveClient,
     # C
     "c99": C99JudgeClient,
     "c99(with O1)": C99O1JudgeClient,
     "c99(with O2)": C99O2JudgeClient,
     "c99(with O3)": C99O3JudgeClient,
-    "c99(spj)": C99SpecialJudgeClient,
-    "c99(interactive)": C99InteractiveClient,
     "c11": C11JudgeClient,
     "c11(with O1)": C11O1JudgeClient,
     "c11(with O2)": C11O2JudgeClient,
     "c11(with O3)": C11O3JudgeClient,
-    "c11(spj)": C11SpecialJudgeClient,
-    "c11(interactive)": C11InteractiveClient,
     "c17": C17JudgeClient,
     "c17(with O1)": C17O1JudgeClient,
     "c17(with O2)": C17O2JudgeClient,
     "c17(with O3)": C17O3JudgeClient,
-    "c17(spj)": C17SpecialJudgeClient,
-    "c17(interactive)": C17InteractiveClient,
     "c23": C23JudgeClient,
     "c23(with O1)": C23O1JudgeClient,
     "c23(with O2)": C23O2JudgeClient,
     "c23(with O3)": C23O3JudgeClient,
-    "c23(spj)": C23SpecialJudgeClient,
-    "c23(interactive)": C23InteractiveClient,
     # C#
     "csharp": CSharpJudgeClient,
     "csharp(mono)": CSharpMonoJudgeClient,
-    "csharp(spj)": CSharpSpecialJudgeClient,
-    "csharp(interactive)": CSharpInteractiveClient,
-    "csharp(mono)(spj)": CSharpMonoSpecialJudgeClient,
-    "csharp(mono)(interactive)": CSharpMonoInteractiveClient,
     # C++98
     "cpp98": Cpp98JudgeClient,
     "cpp98(with O1)": Cpp98O1JudgeClient,
     "cpp98(with O2)": Cpp98O2JudgeClient,
     "cpp98(with O3)": Cpp98O3JudgeClient,
-    "cpp98(spj)": Cpp98SpecialJudgeClient,
-    "cpp98(interactive)": Cpp98InteractiveClient,
     # C++11
     "cpp11": Cpp11JudgeClient,
     "cpp11(with O1)": Cpp11O1JudgeClient,
     "cpp11(with O2)": Cpp11O2JudgeClient,
     "cpp11(with O3)": Cpp11O3JudgeClient,
-    "cpp11(spj)": Cpp11SpecialJudgeClient,
-    "cpp11(interactive)": Cpp11InteractiveClient,
     # C++14
     "cpp14": Cpp14JudgeClient,
     "cpp14(with O1)": Cpp14O1JudgeClient,
     "cpp14(with O2)": Cpp14O2JudgeClient,
     "cpp14(with O3)": Cpp14O3JudgeClient,
-    "cpp14(spj)": Cpp14SpecialJudgeClient,
-    "cpp14(interactive)": Cpp14InteractiveClient,
     # C++17
     "cpp17": Cpp17JudgeClient,
     "cpp17(with O1)": Cpp17O1JudgeClient,
     "cpp17(with O2)": Cpp17O2JudgeClient,
     "cpp17(with O3)": Cpp17O3JudgeClient,
-    "cpp17(spj)": Cpp17SpecialJudgeClient,
-    "cpp17(interactive)": Cpp17InteractiveClient,
     # C++20
     "cpp20": Cpp20JudgeClient,
     "cpp20(with O1)": Cpp20O1JudgeClient,
     "cpp20(with O2)": Cpp20O2JudgeClient,
     "cpp20(with O3)": Cpp20O3JudgeClient,
-    "cpp20(spj)": Cpp20SpecialJudgeClient,
-    "cpp20(interactive)": Cpp20InteractiveClient,
     # C++23
     "cpp23": Cpp23JudgeClient,
     "cpp23(with O1)": Cpp23O1JudgeClient,
     "cpp23(with O2)": Cpp23O2JudgeClient,
     "cpp23(with O3)": Cpp23O3JudgeClient,
-    "cpp23(spj)": Cpp23SpecialJudgeClient,
-    "cpp23(interactive)": Cpp23InteractiveClient,
     # Rust
     "rust": RustJudgeClient,
     "rust(with O1)": RustO1JudgeClient,
     "rust(with O2)": RustO2JudgeClient,
     "rust(with O3)": RustO3JudgeClient,
-    "rust(spj)": RustSpecialJudgeClient,
-    "rust(interactive)": RustInteractiveClient,
-    "rust(with O1)(spj)": RustO1SpecialJudgeClient,
-    "rust(with O1)(interactive)": RustO1InteractiveClient,
-    "rust(with O2)(spj)": RustO2SpecialJudgeClient,
-    "rust(with O2)(interactive)": RustO2InteractiveClient,
-    "rust(with O3)(spj)": RustO3SpecialJudgeClient,
-    "rust(with O3)(interactive)": RustO3InteractiveClient,
     # Go
     "go": GoJudgeClient,
     "go(with O1)": GoO1JudgeClient,
     "go(with O2)": GoO2JudgeClient,
     "go(with O3)": GoO3JudgeClient,
-    "go(spj)": GoSpecialJudgeClient,
-    "go(interactive)": GoInteractiveClient,
-    "go(with O1)(spj)": GoO1SpecialJudgeClient,
-    "go(with O1)(interactive)": GoO1InteractiveClient,
-    "go(with O2)(spj)": GoO2SpecialJudgeClient,
-    "go(with O2)(interactive)": GoO2InteractiveClient,
-    "go(with O3)(spj)": GoO3SpecialJudgeClient,
-    "go(with O3)(interactive)": GoO3InteractiveClient,
 }
+
+
+class JudgeRequest:
+    """
+    判题请求封装
+
+    Attributes:
+        language: 编程语言名称
+        problem_type: 题目类型 (normal/spj/interactive)
+        time_limit: 时间限制（毫秒）
+        memory_limit: 内存限制（MB）
+        judge_file: Special Judge 或交互程序文件路径（可选）
+    """
+
+    def __init__(
+        self,
+        language: str,
+        problem_type: str = "normal",
+        time_limit: int = 1000,
+        memory_limit: int = 256,
+        judge_file: Optional[str] = None,
+    ):
+        self.language = language
+        self.problem_type = ProblemType(problem_type)
+        self.time_limit = time_limit
+        self.memory_limit = memory_limit
+        self.judge_file = judge_file
+
+    def __repr__(self) -> str:
+        return (
+            f"JudgeRequest(language={self.language}, "
+            f"type={self.problem_type.value}, "
+            f"time={self.time_limit}ms, "
+            f"mem={self.memory_limit}MB)"
+        )
+
+
+class JudgeResult:
+    """
+    判题结果封装
+
+    Attributes:
+        status: 判题状态 (accepted/wrong_answer/time_limit_exceeded/etc)
+        time_used: 实际耗时（毫秒）
+        memory_used: 实际内存使用（MB）
+        output: 用户程序输出
+        error: 错误信息
+    """
+
+    def __init__(
+        self,
+        status: str = "pending",
+        time_used: int = 0,
+        memory_used: int = 0,
+        output: str = "",
+        error: str = "",
+    ):
+        self.status = status
+        self.time_used = time_used
+        self.memory_used = memory_used
+        self.output = output
+        self.error = error
+
+    def to_dict(self) -> Dict:
+        return {
+            "status": self.status,
+            "time_used": self.time_used,
+            "memory_used": self.memory_used,
+            "output": self.output,
+            "error": self.error,
+        }
 
 
 class Scheduler:
     """
     语言调度器
-    负责根据语言名称创建对应的判题策略实例
+
+    根据前端传参（语言、题目类型、时间/内存限制）调度到对应的判题逻辑
+
+    流程:
+    1. 前端传参: language, problem_type, time_limit, memory_limit
+    2. 中转站调度: 根据参数获取策略实例，组合判题逻辑
+    3. 判题执行: 调用策略的 comp_command / exec_command
     """
 
     def __init__(self, config_path: Optional[str] = None):
@@ -279,7 +277,7 @@ class Scheduler:
         获取语言对应的判题策略实例
 
         Args:
-            language_name: 语言名称，如 'python3', 'cpp17(with O2)' 等
+            language_name: 语言名称，如 'python3', 'cpp17' 等
 
         Returns:
             对应的判题策略实例
@@ -287,18 +285,9 @@ class Scheduler:
         Raises:
             ValueError: 如果语言不可用或不存在
         """
-        # 检查语言是否存在于配置中
-        if language_name not in self.config.get("languages", {}):
-            raise ValueError(f"Unknown language: {language_name}")
-
-        # 检查语言是否可用
-        lang_config = self.config["languages"][language_name]
-        if not lang_config.get("available", False):
-            raise ValueError(f"Language is not available: {language_name}")
-
-        # 获取策略类
+        # 检查语言是否存在于注册表中
         if language_name not in STRATEGY_REGISTRY:
-            raise ValueError(f"Strategy class not found for: {language_name}")
+            raise ValueError(f"Unknown language: {language_name}")
 
         # 使用缓存的实例
         if language_name not in self._instances:
@@ -306,11 +295,11 @@ class Scheduler:
 
         return self._instances[language_name]
 
-    def get_available_languages(self) -> list:
+    def get_available_languages(self) -> List[str]:
         """获取所有可用的语言列表"""
         return self.config.get("available_languages", [])
 
-    def get_unavailable_languages(self) -> list:
+    def get_unavailable_languages(self) -> List[str]:
         """获取所有不可用的语言列表"""
         return self.config.get("unavailable_languages", [])
 
@@ -328,6 +317,88 @@ class Scheduler:
         for lang in self.get_available_languages():
             strategies[lang] = self.get_strategy(lang)
         return strategies
+
+    def create_judge_request(
+        self,
+        language: str,
+        problem_type: str = "normal",
+        time_limit: int = 1000,
+        memory_limit: int = 256,
+        judge_file: Optional[str] = None,
+    ) -> JudgeRequest:
+        """
+        创建判题请求
+
+        Args:
+            language: 编程语言
+            problem_type: 题目类型 (normal/spj/interactive)
+            time_limit: 时间限制（毫秒）
+            memory_limit: 内存限制（MB）
+            judge_file: Special Judge 或交互程序文件路径
+
+        Returns:
+            JudgeRequest 实例
+        """
+        return JudgeRequest(
+            language=language,
+            problem_type=problem_type,
+            time_limit=time_limit,
+            memory_limit=memory_limit,
+            judge_file=judge_file,
+        )
+
+    def get_compile_commands(
+        self, request: JudgeRequest, source_file: str, work_dir: str
+    ) -> List[Optional[List[str]]]:
+        """
+        获取编译命令列表
+
+        根据题目类型返回需要执行的编译命令
+
+        Args:
+            request: 判题请求
+            source_file: 源代码文件路径
+            work_dir: 工作目录
+
+        Returns:
+            编译命令列表
+        """
+        strategy = self.get_strategy(request.language)
+        commands = []
+
+        # 编译用户程序
+        user_compile = strategy.comp_command(source_file, work_dir)
+        if user_compile:
+            commands.append(user_compile)
+
+        # Special Judge 或交互题需要编译额外的程序
+        if request.problem_type in [ProblemType.SPECIAL_JUDGE, ProblemType.INTERACTIVE]:
+            if request.judge_file:
+                # 编译 Judge 程序（使用相同的编译器）
+                judge_compile = strategy.comp_command(request.judge_file, work_dir)
+                if judge_compile:
+                    commands.append(judge_compile)
+
+        return commands
+
+    def get_exec_command(
+        self, request: JudgeRequest, exec_file: str, work_dir: str
+    ) -> List[str]:
+        """
+        获取执行命令
+
+        根据题目类型返回需要执行的命令
+
+        Args:
+            request: 判题请求
+            exec_file: 可执行文件路径
+            work_dir: 工作目录
+
+        Returns:
+            执行命令列表
+        """
+        strategy = self.get_strategy(request.language)
+        return strategy.exec_command(exec_file, work_dir)
 
 
 # 全局调度器实例
