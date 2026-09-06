@@ -18,7 +18,6 @@ class C99JudgeClient(BaseJudgeClient):
         )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -30,10 +29,8 @@ class C99JudgeClient(BaseJudgeClient):
         return 'c99'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
-            'gcc', source_file, '-o', f"{work_dir}/main",
+            'gcc', source_file, '-o', self._output_path(work_dir),
             '-std=c99',
             '-DONLINE_JUDGE',
             '-Wall'
@@ -54,7 +51,6 @@ class C99O1JudgeClient(BaseJudgeClient):
         )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -66,10 +62,8 @@ class C99O1JudgeClient(BaseJudgeClient):
         return 'c99(with O1)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
-            'gcc', source_file, '-o', f"{work_dir}/main",
+            'gcc', source_file, '-o', self._output_path(work_dir),
             '-O1',
             '-std=c99',
             '-DONLINE_JUDGE',
@@ -91,7 +85,6 @@ class C99O2JudgeClient(BaseJudgeClient):
         )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -103,10 +96,8 @@ class C99O2JudgeClient(BaseJudgeClient):
         return 'c99(with O2)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
-            'gcc', source_file, '-o', f"{work_dir}/main",
+            'gcc', source_file, '-o', self._output_path(work_dir),
             '-O2',
             '-std=c99',
             '-DONLINE_JUDGE',
@@ -128,7 +119,6 @@ class C99O3JudgeClient(BaseJudgeClient):
         )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -140,10 +130,8 @@ class C99O3JudgeClient(BaseJudgeClient):
         return 'c99(with O3)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
-            'gcc', source_file, '-o', f"{work_dir}/main",
+            'gcc', source_file, '-o', self._output_path(work_dir),
             '-O3',
             '-std=c99',
             '-DONLINE_JUDGE',
@@ -165,7 +153,6 @@ class C11JudgeClient(BaseJudgeClient):
         )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -177,10 +164,8 @@ class C11JudgeClient(BaseJudgeClient):
         return 'c11'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
-            'gcc', source_file, '-o', f"{work_dir}/main",
+            'gcc', source_file, '-o', self._output_path(work_dir),
             '-std=c11',
             '-DONLINE_JUDGE',
             '-Wall'
@@ -201,7 +186,6 @@ class C11O1JudgeClient(BaseJudgeClient):
         )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -213,10 +197,8 @@ class C11O1JudgeClient(BaseJudgeClient):
         return 'c11(with O1)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
-            'gcc', source_file, '-o', f"{work_dir}/main",
+            'gcc', source_file, '-o', self._output_path(work_dir),
             '-O1',
             '-std=c11',
             '-DONLINE_JUDGE',
@@ -238,7 +220,6 @@ class C11O2JudgeClient(BaseJudgeClient):
         )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -250,10 +231,8 @@ class C11O2JudgeClient(BaseJudgeClient):
         return 'c11(with O2)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
-            'gcc', source_file, '-o', f"{work_dir}/main",
+            'gcc', source_file, '-o', self._output_path(work_dir),
             '-O2',
             '-std=c11',
             '-DONLINE_JUDGE',
@@ -275,7 +254,6 @@ class C11O3JudgeClient(BaseJudgeClient):
         )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -287,10 +265,8 @@ class C11O3JudgeClient(BaseJudgeClient):
         return 'c11(with O3)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
-            'gcc', source_file, '-o', f"{work_dir}/main",
+            'gcc', source_file, '-o', self._output_path(work_dir),
             '-O3',
             '-std=c11',
             '-DONLINE_JUDGE',
@@ -312,7 +288,6 @@ class C17JudgeClient(BaseJudgeClient):
         )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -324,10 +299,8 @@ class C17JudgeClient(BaseJudgeClient):
         return 'c17'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
-            'gcc', source_file, '-o', f"{work_dir}/main",
+            'gcc', source_file, '-o', self._output_path(work_dir),
             '-std=c17',
             '-DONLINE_JUDGE',
             '-Wall'
@@ -348,7 +321,6 @@ class C17O1JudgeClient(BaseJudgeClient):
         )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -360,10 +332,8 @@ class C17O1JudgeClient(BaseJudgeClient):
         return 'c17(with O1)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
-            'gcc', source_file, '-o', f"{work_dir}/main",
+            'gcc', source_file, '-o', self._output_path(work_dir),
             '-O1',
             '-std=c17',
             '-DONLINE_JUDGE',
@@ -385,7 +355,6 @@ class C17O2JudgeClient(BaseJudgeClient):
         )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -397,10 +366,8 @@ class C17O2JudgeClient(BaseJudgeClient):
         return 'c17(with O2)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
-            'gcc', source_file, '-o', f"{work_dir}/main",
+            'gcc', source_file, '-o', self._output_path(work_dir),
             '-O2',
             '-std=c17',
             '-DONLINE_JUDGE',
@@ -422,7 +389,6 @@ class C17O3JudgeClient(BaseJudgeClient):
         )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -434,10 +400,8 @@ class C17O3JudgeClient(BaseJudgeClient):
         return 'c17(with O3)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
-            'gcc', source_file, '-o', f"{work_dir}/main",
+            'gcc', source_file, '-o', self._output_path(work_dir),
             '-O3',
             '-std=c17',
             '-DONLINE_JUDGE',
@@ -459,7 +423,6 @@ class C23JudgeClient(BaseJudgeClient):
         )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -471,10 +434,8 @@ class C23JudgeClient(BaseJudgeClient):
         return 'c23'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
-            'gcc', source_file, '-o', f"{work_dir}/main",
+            'gcc', source_file, '-o', self._output_path(work_dir),
             '-std=c23',
             '-DONLINE_JUDGE',
             '-Wall'
@@ -495,7 +456,6 @@ class C23O1JudgeClient(BaseJudgeClient):
         )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -507,10 +467,8 @@ class C23O1JudgeClient(BaseJudgeClient):
         return 'c23(with O1)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
-            'gcc', source_file, '-o', f"{work_dir}/main",
+            'gcc', source_file, '-o', self._output_path(work_dir),
             '-O1',
             '-std=c23',
             '-DONLINE_JUDGE',
@@ -532,7 +490,6 @@ class C23O2JudgeClient(BaseJudgeClient):
         )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -544,10 +501,8 @@ class C23O2JudgeClient(BaseJudgeClient):
         return 'c23(with O2)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
-            'gcc', source_file, '-o', f"{work_dir}/main",
+            'gcc', source_file, '-o', self._output_path(work_dir),
             '-O2',
             '-std=c23',
             '-DONLINE_JUDGE',
@@ -569,7 +524,6 @@ class C23O3JudgeClient(BaseJudgeClient):
         )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -581,10 +535,8 @@ class C23O3JudgeClient(BaseJudgeClient):
         return 'c23(with O3)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
-            'gcc', source_file, '-o', f"{work_dir}/main",
+            'gcc', source_file, '-o', self._output_path(work_dir),
             '-O3',
             '-std=c23',
             '-DONLINE_JUDGE',

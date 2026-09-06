@@ -18,7 +18,6 @@ class Cpp14JudgeClient(BaseJudgeClient):
         )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -30,10 +29,8 @@ class Cpp14JudgeClient(BaseJudgeClient):
         return 'cpp14'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
-            'g++', source_file, '-o', f"{work_dir}/main",
+            'g++', source_file, '-o', self._output_path(work_dir),
             '-std=c++14',
             '-DONLINE_JUDGE',
             '-Wall'
@@ -54,7 +51,6 @@ class Cpp14O1JudgeClient(BaseJudgeClient):
         )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -66,10 +62,8 @@ class Cpp14O1JudgeClient(BaseJudgeClient):
         return 'cpp14(with O1)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
-            'g++', source_file, '-o', f"{work_dir}/main",
+            'g++', source_file, '-o', self._output_path(work_dir),
             '-O1',
             '-std=c++14',
             '-DONLINE_JUDGE',
@@ -91,7 +85,6 @@ class Cpp14O2JudgeClient(BaseJudgeClient):
         )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -103,10 +96,8 @@ class Cpp14O2JudgeClient(BaseJudgeClient):
         return 'cpp14(with O2)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
-            'g++', source_file, '-o', f"{work_dir}/main",
+            'g++', source_file, '-o', self._output_path(work_dir),
             '-O2',
             '-std=c++14',
             '-DONLINE_JUDGE',
@@ -128,7 +119,6 @@ class Cpp14O3JudgeClient(BaseJudgeClient):
         )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -140,10 +130,8 @@ class Cpp14O3JudgeClient(BaseJudgeClient):
         return 'cpp14(with O3)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
-            'g++', source_file, '-o', f"{work_dir}/main",
+            'g++', source_file, '-o', self._output_path(work_dir),
             '-O3',
             '-std=c++14',
             '-DONLINE_JUDGE',

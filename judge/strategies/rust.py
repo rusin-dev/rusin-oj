@@ -8,7 +8,6 @@ class RustJudgeClient(BaseJudgeClient):
     """Rust 无优化"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -30,11 +29,9 @@ class RustJudgeClient(BaseJudgeClient):
         return 'rust'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
             'rustc', source_file,
-            '-o', f"{work_dir}/main",
+            '-o', self._output_path(work_dir),
             '--edition', '2021'
         ]
 
@@ -43,7 +40,6 @@ class RustO1JudgeClient(BaseJudgeClient):
     """Rust O1 优化"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -65,11 +61,9 @@ class RustO1JudgeClient(BaseJudgeClient):
         return 'rust(with O1)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
             'rustc', source_file,
-            '-o', f"{work_dir}/main",
+            '-o', self._output_path(work_dir),
             '-C', 'opt-level=1',
             '--edition', '2021'
         ]
@@ -79,7 +73,6 @@ class RustO2JudgeClient(BaseJudgeClient):
     """Rust O2 优化"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -101,11 +94,9 @@ class RustO2JudgeClient(BaseJudgeClient):
         return 'rust(with O2)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
             'rustc', source_file,
-            '-o', f"{work_dir}/main",
+            '-o', self._output_path(work_dir),
             '-C', 'opt-level=2',
             '--edition', '2021'
         ]
@@ -115,7 +106,6 @@ class RustO3JudgeClient(BaseJudgeClient):
     """Rust O3 优化"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -137,11 +127,9 @@ class RustO3JudgeClient(BaseJudgeClient):
         return 'rust(with O3)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
             'rustc', source_file,
-            '-o', f"{work_dir}/main",
+            '-o', self._output_path(work_dir),
             '-C', 'opt-level=3',
             '--edition', '2021'
         ]

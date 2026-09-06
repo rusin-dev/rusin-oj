@@ -1,24 +1,12 @@
 # judge/strategies/cpp17.py
 from .base import BaseJudgeClient
-from ..utils.resource_limiter import ResourceLimits
 from typing import List, Optional
 
 
 class Cpp17JudgeClient(BaseJudgeClient):
     """C++17 无优化"""
 
-    @property
-    def default_resource_limits(self) -> ResourceLimits:
-        """C/C++默认资源限制"""
-        return ResourceLimits(
-            memory_mb=128.0,   # 编译后程序内存
-            time_ms=1000.0,    # 1秒
-            stack_mb=64.0,     # C/C++栈较大
-            cpu_time_ms=1000.0,
-        )
-
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -30,10 +18,8 @@ class Cpp17JudgeClient(BaseJudgeClient):
         return 'cpp17'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
-            'g++', source_file, '-o', f"{work_dir}/main",
+            'g++', source_file, '-o', self._output_path(work_dir),
             '-std=c++17',
             '-DONLINE_JUDGE',
             '-Wall'
@@ -43,18 +29,7 @@ class Cpp17JudgeClient(BaseJudgeClient):
 class Cpp17O1JudgeClient(BaseJudgeClient):
     """C++17 O1 优化"""
 
-    @property
-    def default_resource_limits(self) -> ResourceLimits:
-        """C/C++默认资源限制"""
-        return ResourceLimits(
-            memory_mb=128.0,   # 编译后程序内存
-            time_ms=1000.0,    # 1秒
-            stack_mb=64.0,     # C/C++栈较大
-            cpu_time_ms=1000.0,
-        )
-
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -66,10 +41,8 @@ class Cpp17O1JudgeClient(BaseJudgeClient):
         return 'cpp17(with O1)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
-            'g++', source_file, '-o', f"{work_dir}/main",
+            'g++', source_file, '-o', self._output_path(work_dir),
             '-O1',
             '-std=c++17',
             '-DONLINE_JUDGE',
@@ -80,18 +53,7 @@ class Cpp17O1JudgeClient(BaseJudgeClient):
 class Cpp17O2JudgeClient(BaseJudgeClient):
     """C++17 O2 优化"""
 
-    @property
-    def default_resource_limits(self) -> ResourceLimits:
-        """C/C++默认资源限制"""
-        return ResourceLimits(
-            memory_mb=128.0,   # 编译后程序内存
-            time_ms=1000.0,    # 1秒
-            stack_mb=64.0,     # C/C++栈较大
-            cpu_time_ms=1000.0,
-        )
-
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -103,10 +65,8 @@ class Cpp17O2JudgeClient(BaseJudgeClient):
         return 'cpp17(with O2)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
-            'g++', source_file, '-o', f"{work_dir}/main",
+            'g++', source_file, '-o', self._output_path(work_dir),
             '-O2',
             '-std=c++17',
             '-DONLINE_JUDGE',
@@ -117,18 +77,7 @@ class Cpp17O2JudgeClient(BaseJudgeClient):
 class Cpp17O3JudgeClient(BaseJudgeClient):
     """C++17 O3 优化"""
 
-    @property
-    def default_resource_limits(self) -> ResourceLimits:
-        """C/C++默认资源限制"""
-        return ResourceLimits(
-            memory_mb=128.0,   # 编译后程序内存
-            time_ms=1000.0,    # 1秒
-            stack_mb=64.0,     # C/C++栈较大
-            cpu_time_ms=1000.0,
-        )
-
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
 
     @property
@@ -140,10 +89,8 @@ class Cpp17O3JudgeClient(BaseJudgeClient):
         return 'cpp17(with O3)'
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
-            'g++', source_file, '-o', f"{work_dir}/main",
+            'g++', source_file, '-o', self._output_path(work_dir),
             '-O3',
             '-std=c++17',
             '-DONLINE_JUDGE',

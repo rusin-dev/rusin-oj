@@ -8,8 +8,7 @@ class CSharpJudgeClient(BaseJudgeClient):
     """C# (.NET)"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
-        return [exec_file]
+        return ['dotnet', 'exec', f"{work_dir}/test.dll"]
 
     @property
     def extension_name(self) -> str:
@@ -23,15 +22,13 @@ class CSharpJudgeClient(BaseJudgeClient):
     def default_resource_limits(self) -> ResourceLimits:
         """C# (.NET) 默认资源限制"""
         return ResourceLimits(
-            memory_mb=256.0,   # .NET运行时内存
-            time_ms=1000.0,    # 1秒
+            memory_mb=256.0,
+            time_ms=1000.0,
             stack_mb=64.0,
             cpu_time_ms=1000.0,
         )
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
             'dotnet', 'build',
             '-c', 'Release',
@@ -44,7 +41,6 @@ class CSharpMonoJudgeClient(BaseJudgeClient):
     """C# (Mono)"""
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
-        exec_file = self._validate_exec_file(exec_file, work_dir)
         return ['mono', exec_file]
 
     @property
@@ -59,17 +55,15 @@ class CSharpMonoJudgeClient(BaseJudgeClient):
     def default_resource_limits(self) -> ResourceLimits:
         """C# (Mono) 默认资源限制"""
         return ResourceLimits(
-            memory_mb=192.0,   # Mono运行时内存较小
-            time_ms=1000.0,    # 1秒
+            memory_mb=192.0,
+            time_ms=1000.0,
             stack_mb=64.0,
             cpu_time_ms=1000.0,
         )
 
     def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
-        source_file = self._validate_source_file(source_file)
-        work_dir = self._validate_work_dir(work_dir)
         return [
             'mcs',
-            '-out:', f"{work_dir}/main.exe",
+            '-out:', self._output_path(work_dir),
             source_file
         ]

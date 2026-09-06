@@ -1,6 +1,9 @@
 # judge/strategies/base.py
 from abc import ABC, abstractmethod
 from typing import List, Optional
+import sys
+
+IS_WINDOWS = sys.platform == 'win32'
 
 
 class BaseJudgeClient(ABC):
@@ -11,6 +14,11 @@ class BaseJudgeClient(ABC):
 
     def __init__(self) -> None:
         super().__init__()
+
+    @property
+    def exe_suffix(self) -> str:
+        """返回可执行文件后缀"""
+        return '.exe' if IS_WINDOWS else ''
 
     @abstractmethod
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
@@ -57,3 +65,7 @@ class BaseJudgeClient(ABC):
         Returns:
             编译命令列表，如果无需编译（解释型语言）返回 None
         """
+
+    def _output_path(self, work_dir: str) -> str:
+        """返回可执行文件输出路径（自动添加平台后缀）"""
+        return f"{work_dir}/main{self.exe_suffix}"

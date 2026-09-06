@@ -374,10 +374,12 @@ class Scheduler:
         # Special Judge 或交互题需要编译额外的程序
         if request.problem_type in [ProblemType.SPECIAL_JUDGE, ProblemType.INTERACTIVE]:
             if request.judge_file:
-                # 编译 Judge 程序（使用相同的编译器）
-                judge_compile = strategy.comp_command(request.judge_file, work_dir)
-                if judge_compile:
-                    commands.append(judge_compile)
+                # 检查 judge 文件扩展名是否与用户语言匹配
+                judge_ext = Path(request.judge_file).suffix.lower()
+                if judge_ext == strategy.extension_name:
+                    judge_compile = strategy.comp_command(request.judge_file, work_dir)
+                    if judge_compile:
+                        commands.append(judge_compile)
 
         return commands
 
