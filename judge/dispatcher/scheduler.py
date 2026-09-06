@@ -12,6 +12,26 @@ from ..strategies import (
     PythonJudgeClient,
     # Java
     JavaJudgeClient,
+    # C
+    C99JudgeClient,
+    C99O1JudgeClient,
+    C99O2JudgeClient,
+    C99O3JudgeClient,
+    C11JudgeClient,
+    C11O1JudgeClient,
+    C11O2JudgeClient,
+    C11O3JudgeClient,
+    C17JudgeClient,
+    C17O1JudgeClient,
+    C17O2JudgeClient,
+    C17O3JudgeClient,
+    C23JudgeClient,
+    C23O1JudgeClient,
+    C23O2JudgeClient,
+    C23O3JudgeClient,
+    # C#
+    CSharpJudgeClient,
+    CSharpMonoJudgeClient,
     # C++98
     Cpp98JudgeClient,
     Cpp98O1JudgeClient,
@@ -61,6 +81,26 @@ STRATEGY_REGISTRY: Dict[str, Type[BaseJudgeClient]] = {
     "python3": PythonJudgeClient,
     # Java
     "java": JavaJudgeClient,
+    # C
+    "c99": C99JudgeClient,
+    "c99(with O1)": C99O1JudgeClient,
+    "c99(with O2)": C99O2JudgeClient,
+    "c99(with O3)": C99O3JudgeClient,
+    "c11": C11JudgeClient,
+    "c11(with O1)": C11O1JudgeClient,
+    "c11(with O2)": C11O2JudgeClient,
+    "c11(with O3)": C11O3JudgeClient,
+    "c17": C17JudgeClient,
+    "c17(with O1)": C17O1JudgeClient,
+    "c17(with O2)": C17O2JudgeClient,
+    "c17(with O3)": C17O3JudgeClient,
+    "c23": C23JudgeClient,
+    "c23(with O1)": C23O1JudgeClient,
+    "c23(with O2)": C23O2JudgeClient,
+    "c23(with O3)": C23O3JudgeClient,
+    # C#
+    "csharp": CSharpJudgeClient,
+    "csharp(mono)": CSharpMonoJudgeClient,
     # C++98
     "cpp98": Cpp98JudgeClient,
     "cpp98(with O1)": Cpp98O1JudgeClient,

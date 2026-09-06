@@ -69,6 +69,42 @@ LANGUAGE_DETECTORS: Dict[str, Dict] = {
         "version_args": ["version"],
         "strategy_class": "GoJudgeClient",
     },
+    # C 各版本使用相同的 gcc 编译器
+    "c99": {
+        "command": "gcc",
+        "version_args": ["--version"],
+        "strategy_class": "C99JudgeClient",
+        "std_flag": "-std=c99",
+    },
+    "c11": {
+        "command": "gcc",
+        "version_args": ["--version"],
+        "strategy_class": "C11JudgeClient",
+        "std_flag": "-std=c11",
+    },
+    "c17": {
+        "command": "gcc",
+        "version_args": ["--version"],
+        "strategy_class": "C17JudgeClient",
+        "std_flag": "-std=c17",
+    },
+    "c23": {
+        "command": "gcc",
+        "version_args": ["--version"],
+        "strategy_class": "C23JudgeClient",
+        "std_flag": "-std=c23",
+    },
+    # C#
+    "csharp": {
+        "command": "dotnet",
+        "version_args": ["--version"],
+        "strategy_class": "CSharpJudgeClient",
+    },
+    "csharp(mono)": {
+        "command": "mcs",
+        "version_args": ["--version"],
+        "strategy_class": "CSharpMonoJudgeClient",
+    },
 }
 
 # 优化级别
@@ -295,6 +331,56 @@ def generate_language_config(
                     config["available_languages"].append(full_name)
                 else:
                     config["unavailable_languages"].append(full_name)
+
+        # C 系列
+        elif language_name.startswith("c") and language_name != "csharp" and language_name != "csharp(mono)":
+            for opt_level in OPT_LEVELS:
+                if opt_level:
+                    full_name = f"{language_name}(with {opt_level})"
+                    strategy_suffix = OPT_SUFFIX_MAP[opt_level]
+                else:
+                    full_name = language_name
+                    strategy_suffix = ""
+
+                # 构造策略类名
+                base_class = detection.get("strategy_class", "")
+                if strategy_suffix:
+                    strategy_class = f"C{language_name[1:]}{strategy_suffix}JudgeClient"
+                else:
+                    strategy_class = base_class
+
+                available = detection.get("available", False)
+                lang_config = {
+                    "name": full_name,
+                    "extension": ".c",
+                    "strategy_class": strategy_class,
+                    "available": available,
+                    "std_flag": detection.get("std_flag"),
+                }
+
+                config["languages"][full_name] = lang_config
+
+                if available:
+                    config["available_languages"].append(full_name)
+                else:
+                    config["unavailable_languages"].append(full_name)
+
+        # C# 系列
+        elif language_name in ["csharp", "csharp(mono)"]:
+            available = detection.get("available", False)
+            lang_config = {
+                "name": language_name,
+                "extension": ".cs",
+                "strategy_class": detection.get("strategy_class", ""),
+                "available": available,
+            }
+
+            config["languages"][language_name] = lang_config
+
+            if available:
+                config["available_languages"].append(language_name)
+            else:
+                config["unavailable_languages"].append(language_name)
 
         # Python 和 Java
         else:

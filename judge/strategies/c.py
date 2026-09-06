@@ -1,0 +1,383 @@
+# judge/strategies/c.py
+from .base import BaseJudgeClient
+from typing import List, Optional
+
+
+class C99JudgeClient(BaseJudgeClient):
+    """C99 无优化"""
+
+    def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        return [exec_file]
+
+    @property
+    def extension_name(self) -> str:
+        return '.c'
+
+    @property
+    def language_name(self) -> str:
+        return 'c99'
+
+    def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        return [
+            'gcc', source_file, '-o', f"{work_dir}/main",
+            '-std=c99',
+            '-DONLINE_JUDGE',
+            '-Wall'
+        ]
+
+
+class C99O1JudgeClient(BaseJudgeClient):
+    """C99 O1 优化"""
+
+    def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        return [exec_file]
+
+    @property
+    def extension_name(self) -> str:
+        return '.c'
+
+    @property
+    def language_name(self) -> str:
+        return 'c99(with O1)'
+
+    def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        return [
+            'gcc', source_file, '-o', f"{work_dir}/main",
+            '-O1',
+            '-std=c99',
+            '-DONLINE_JUDGE',
+            '-Wall'
+        ]
+
+
+class C99O2JudgeClient(BaseJudgeClient):
+    """C99 O2 优化"""
+
+    def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        return [exec_file]
+
+    @property
+    def extension_name(self) -> str:
+        return '.c'
+
+    @property
+    def language_name(self) -> str:
+        return 'c99(with O2)'
+
+    def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        return [
+            'gcc', source_file, '-o', f"{work_dir}/main",
+            '-O2',
+            '-std=c99',
+            '-DONLINE_JUDGE',
+            '-Wall'
+        ]
+
+
+class C99O3JudgeClient(BaseJudgeClient):
+    """C99 O3 优化"""
+
+    def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        return [exec_file]
+
+    @property
+    def extension_name(self) -> str:
+        return '.c'
+
+    @property
+    def language_name(self) -> str:
+        return 'c99(with O3)'
+
+    def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        return [
+            'gcc', source_file, '-o', f"{work_dir}/main",
+            '-O3',
+            '-std=c99',
+            '-DONLINE_JUDGE',
+            '-Wall'
+        ]
+
+
+class C11JudgeClient(BaseJudgeClient):
+    """C11 无优化"""
+
+    def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        return [exec_file]
+
+    @property
+    def extension_name(self) -> str:
+        return '.c'
+
+    @property
+    def language_name(self) -> str:
+        return 'c11'
+
+    def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        return [
+            'gcc', source_file, '-o', f"{work_dir}/main",
+            '-std=c11',
+            '-DONLINE_JUDGE',
+            '-Wall'
+        ]
+
+
+class C11O1JudgeClient(BaseJudgeClient):
+    """C11 O1 优化"""
+
+    def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        return [exec_file]
+
+    @property
+    def extension_name(self) -> str:
+        return '.c'
+
+    @property
+    def language_name(self) -> str:
+        return 'c11(with O1)'
+
+    def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        return [
+            'gcc', source_file, '-o', f"{work_dir}/main",
+            '-O1',
+            '-std=c11',
+            '-DONLINE_JUDGE',
+            '-Wall'
+        ]
+
+
+class C11O2JudgeClient(BaseJudgeClient):
+    """C11 O2 优化"""
+
+    def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        return [exec_file]
+
+    @property
+    def extension_name(self) -> str:
+        return '.c'
+
+    @property
+    def language_name(self) -> str:
+        return 'c11(with O2)'
+
+    def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        return [
+            'gcc', source_file, '-o', f"{work_dir}/main",
+            '-O2',
+            '-std=c11',
+            '-DONLINE_JUDGE',
+            '-Wall'
+        ]
+
+
+class C11O3JudgeClient(BaseJudgeClient):
+    """C11 O3 优化"""
+
+    def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        return [exec_file]
+
+    @property
+    def extension_name(self) -> str:
+        return '.c'
+
+    @property
+    def language_name(self) -> str:
+        return 'c11(with O3)'
+
+    def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        return [
+            'gcc', source_file, '-o', f"{work_dir}/main",
+            '-O3',
+            '-std=c11',
+            '-DONLINE_JUDGE',
+            '-Wall'
+        ]
+
+
+class C17JudgeClient(BaseJudgeClient):
+    """C17 无优化"""
+
+    def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        return [exec_file]
+
+    @property
+    def extension_name(self) -> str:
+        return '.c'
+
+    @property
+    def language_name(self) -> str:
+        return 'c17'
+
+    def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        return [
+            'gcc', source_file, '-o', f"{work_dir}/main",
+            '-std=c17',
+            '-DONLINE_JUDGE',
+            '-Wall'
+        ]
+
+
+class C17O1JudgeClient(BaseJudgeClient):
+    """C17 O1 优化"""
+
+    def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        return [exec_file]
+
+    @property
+    def extension_name(self) -> str:
+        return '.c'
+
+    @property
+    def language_name(self) -> str:
+        return 'c17(with O1)'
+
+    def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        return [
+            'gcc', source_file, '-o', f"{work_dir}/main",
+            '-O1',
+            '-std=c17',
+            '-DONLINE_JUDGE',
+            '-Wall'
+        ]
+
+
+class C17O2JudgeClient(BaseJudgeClient):
+    """C17 O2 优化"""
+
+    def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        return [exec_file]
+
+    @property
+    def extension_name(self) -> str:
+        return '.c'
+
+    @property
+    def language_name(self) -> str:
+        return 'c17(with O2)'
+
+    def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        return [
+            'gcc', source_file, '-o', f"{work_dir}/main",
+            '-O2',
+            '-std=c17',
+            '-DONLINE_JUDGE',
+            '-Wall'
+        ]
+
+
+class C17O3JudgeClient(BaseJudgeClient):
+    """C17 O3 优化"""
+
+    def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        return [exec_file]
+
+    @property
+    def extension_name(self) -> str:
+        return '.c'
+
+    @property
+    def language_name(self) -> str:
+        return 'c17(with O3)'
+
+    def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        return [
+            'gcc', source_file, '-o', f"{work_dir}/main",
+            '-O3',
+            '-std=c17',
+            '-DONLINE_JUDGE',
+            '-Wall'
+        ]
+
+
+class C23JudgeClient(BaseJudgeClient):
+    """C23 无优化"""
+
+    def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        return [exec_file]
+
+    @property
+    def extension_name(self) -> str:
+        return '.c'
+
+    @property
+    def language_name(self) -> str:
+        return 'c23'
+
+    def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        return [
+            'gcc', source_file, '-o', f"{work_dir}/main",
+            '-std=c23',
+            '-DONLINE_JUDGE',
+            '-Wall'
+        ]
+
+
+class C23O1JudgeClient(BaseJudgeClient):
+    """C23 O1 优化"""
+
+    def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        return [exec_file]
+
+    @property
+    def extension_name(self) -> str:
+        return '.c'
+
+    @property
+    def language_name(self) -> str:
+        return 'c23(with O1)'
+
+    def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        return [
+            'gcc', source_file, '-o', f"{work_dir}/main",
+            '-O1',
+            '-std=c23',
+            '-DONLINE_JUDGE',
+            '-Wall'
+        ]
+
+
+class C23O2JudgeClient(BaseJudgeClient):
+    """C23 O2 优化"""
+
+    def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        return [exec_file]
+
+    @property
+    def extension_name(self) -> str:
+        return '.c'
+
+    @property
+    def language_name(self) -> str:
+        return 'c23(with O2)'
+
+    def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        return [
+            'gcc', source_file, '-o', f"{work_dir}/main",
+            '-O2',
+            '-std=c23',
+            '-DONLINE_JUDGE',
+            '-Wall'
+        ]
+
+
+class C23O3JudgeClient(BaseJudgeClient):
+    """C23 O3 优化"""
+
+    def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
+        return [exec_file]
+
+    @property
+    def extension_name(self) -> str:
+        return '.c'
+
+    @property
+    def language_name(self) -> str:
+        return 'c23(with O3)'
+
+    def comp_command(self, source_file: str, work_dir: str) -> Optional[List[str]]:
+        return [
+            'gcc', source_file, '-o', f"{work_dir}/main",
+            '-O3',
+            '-std=c23',
+            '-DONLINE_JUDGE',
+            '-Wall'
+        ]
