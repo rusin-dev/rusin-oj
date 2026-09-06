@@ -1,5 +1,6 @@
 # judge/strategies/go.py
 from .base import BaseJudgeClient
+from ..utils.resource_limiter import ResourceLimits
 from typing import List, Optional
 
 
@@ -9,6 +10,16 @@ class GoJudgeClient(BaseJudgeClient):
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
         exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
+
+    @property
+    def default_resource_limits(self) -> ResourceLimits:
+        """Go默认资源限制"""
+        return ResourceLimits(
+            memory_mb=128.0,   # Go程序内存
+            time_ms=1000.0,    # 1秒
+            stack_mb=64.0,
+            cpu_time_ms=1000.0,
+        )
 
     @property
     def extension_name(self) -> str:
@@ -34,6 +45,16 @@ class GoO1JudgeClient(BaseJudgeClient):
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
         exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
+
+    @property
+    def default_resource_limits(self) -> ResourceLimits:
+        """Go默认资源限制"""
+        return ResourceLimits(
+            memory_mb=128.0,   # Go程序内存
+            time_ms=1000.0,    # 1秒
+            stack_mb=64.0,
+            cpu_time_ms=1000.0,
+        )
 
     @property
     def extension_name(self) -> str:
@@ -62,6 +83,16 @@ class GoO2JudgeClient(BaseJudgeClient):
         return [exec_file]
 
     @property
+    def default_resource_limits(self) -> ResourceLimits:
+        """Go默认资源限制"""
+        return ResourceLimits(
+            memory_mb=128.0,   # Go程序内存
+            time_ms=1000.0,    # 1秒
+            stack_mb=64.0,
+            cpu_time_ms=1000.0,
+        )
+
+    @property
     def extension_name(self) -> str:
         return '.go'
 
@@ -85,6 +116,16 @@ class GoO3JudgeClient(BaseJudgeClient):
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
         exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
+
+    @property
+    def default_resource_limits(self) -> ResourceLimits:
+        """Go默认资源限制"""
+        return ResourceLimits(
+            memory_mb=128.0,   # Go程序内存
+            time_ms=1000.0,    # 1秒
+            stack_mb=64.0,
+            cpu_time_ms=1000.0,
+        )
 
     @property
     def extension_name(self) -> str:

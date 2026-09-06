@@ -1,10 +1,21 @@
 # judge/strategies/c.py
 from .base import BaseJudgeClient
+from ..utils.resource_limiter import ResourceLimits
 from typing import List, Optional
 
 
 class C99JudgeClient(BaseJudgeClient):
     """C99 无优化"""
+
+    @property
+    def default_resource_limits(self) -> ResourceLimits:
+        """C/C++默认资源限制"""
+        return ResourceLimits(
+            memory_mb=128.0,   # 编译后程序内存
+            time_ms=1000.0,    # 1秒
+            stack_mb=64.0,     # C/C++栈较大
+            cpu_time_ms=1000.0,
+        )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
         exec_file = self._validate_exec_file(exec_file, work_dir)
@@ -31,6 +42,16 @@ class C99JudgeClient(BaseJudgeClient):
 
 class C99O1JudgeClient(BaseJudgeClient):
     """C99 O1 优化"""
+
+    @property
+    def default_resource_limits(self) -> ResourceLimits:
+        """C/C++默认资源限制"""
+        return ResourceLimits(
+            memory_mb=128.0,   # 编译后程序内存
+            time_ms=1000.0,    # 1秒
+            stack_mb=64.0,     # C/C++栈较大
+            cpu_time_ms=1000.0,
+        )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
         exec_file = self._validate_exec_file(exec_file, work_dir)
@@ -59,6 +80,16 @@ class C99O1JudgeClient(BaseJudgeClient):
 class C99O2JudgeClient(BaseJudgeClient):
     """C99 O2 优化"""
 
+    @property
+    def default_resource_limits(self) -> ResourceLimits:
+        """C/C++默认资源限制"""
+        return ResourceLimits(
+            memory_mb=128.0,   # 编译后程序内存
+            time_ms=1000.0,    # 1秒
+            stack_mb=64.0,     # C/C++栈较大
+            cpu_time_ms=1000.0,
+        )
+
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
         exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
@@ -85,6 +116,16 @@ class C99O2JudgeClient(BaseJudgeClient):
 
 class C99O3JudgeClient(BaseJudgeClient):
     """C99 O3 优化"""
+
+    @property
+    def default_resource_limits(self) -> ResourceLimits:
+        """C/C++默认资源限制"""
+        return ResourceLimits(
+            memory_mb=128.0,   # 编译后程序内存
+            time_ms=1000.0,    # 1秒
+            stack_mb=64.0,     # C/C++栈较大
+            cpu_time_ms=1000.0,
+        )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
         exec_file = self._validate_exec_file(exec_file, work_dir)
@@ -113,6 +154,16 @@ class C99O3JudgeClient(BaseJudgeClient):
 class C11JudgeClient(BaseJudgeClient):
     """C11 无优化"""
 
+    @property
+    def default_resource_limits(self) -> ResourceLimits:
+        """C/C++默认资源限制"""
+        return ResourceLimits(
+            memory_mb=128.0,   # 编译后程序内存
+            time_ms=1000.0,    # 1秒
+            stack_mb=64.0,     # C/C++栈较大
+            cpu_time_ms=1000.0,
+        )
+
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
         exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
@@ -138,6 +189,16 @@ class C11JudgeClient(BaseJudgeClient):
 
 class C11O1JudgeClient(BaseJudgeClient):
     """C11 O1 优化"""
+
+    @property
+    def default_resource_limits(self) -> ResourceLimits:
+        """C/C++默认资源限制"""
+        return ResourceLimits(
+            memory_mb=128.0,   # 编译后程序内存
+            time_ms=1000.0,    # 1秒
+            stack_mb=64.0,     # C/C++栈较大
+            cpu_time_ms=1000.0,
+        )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
         exec_file = self._validate_exec_file(exec_file, work_dir)
@@ -166,6 +227,16 @@ class C11O1JudgeClient(BaseJudgeClient):
 class C11O2JudgeClient(BaseJudgeClient):
     """C11 O2 优化"""
 
+    @property
+    def default_resource_limits(self) -> ResourceLimits:
+        """C/C++默认资源限制"""
+        return ResourceLimits(
+            memory_mb=128.0,   # 编译后程序内存
+            time_ms=1000.0,    # 1秒
+            stack_mb=64.0,     # C/C++栈较大
+            cpu_time_ms=1000.0,
+        )
+
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
         exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
@@ -192,6 +263,16 @@ class C11O2JudgeClient(BaseJudgeClient):
 
 class C11O3JudgeClient(BaseJudgeClient):
     """C11 O3 优化"""
+
+    @property
+    def default_resource_limits(self) -> ResourceLimits:
+        """C/C++默认资源限制"""
+        return ResourceLimits(
+            memory_mb=128.0,   # 编译后程序内存
+            time_ms=1000.0,    # 1秒
+            stack_mb=64.0,     # C/C++栈较大
+            cpu_time_ms=1000.0,
+        )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
         exec_file = self._validate_exec_file(exec_file, work_dir)
@@ -220,6 +301,16 @@ class C11O3JudgeClient(BaseJudgeClient):
 class C17JudgeClient(BaseJudgeClient):
     """C17 无优化"""
 
+    @property
+    def default_resource_limits(self) -> ResourceLimits:
+        """C/C++默认资源限制"""
+        return ResourceLimits(
+            memory_mb=128.0,   # 编译后程序内存
+            time_ms=1000.0,    # 1秒
+            stack_mb=64.0,     # C/C++栈较大
+            cpu_time_ms=1000.0,
+        )
+
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
         exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
@@ -245,6 +336,16 @@ class C17JudgeClient(BaseJudgeClient):
 
 class C17O1JudgeClient(BaseJudgeClient):
     """C17 O1 优化"""
+
+    @property
+    def default_resource_limits(self) -> ResourceLimits:
+        """C/C++默认资源限制"""
+        return ResourceLimits(
+            memory_mb=128.0,   # 编译后程序内存
+            time_ms=1000.0,    # 1秒
+            stack_mb=64.0,     # C/C++栈较大
+            cpu_time_ms=1000.0,
+        )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
         exec_file = self._validate_exec_file(exec_file, work_dir)
@@ -273,6 +374,16 @@ class C17O1JudgeClient(BaseJudgeClient):
 class C17O2JudgeClient(BaseJudgeClient):
     """C17 O2 优化"""
 
+    @property
+    def default_resource_limits(self) -> ResourceLimits:
+        """C/C++默认资源限制"""
+        return ResourceLimits(
+            memory_mb=128.0,   # 编译后程序内存
+            time_ms=1000.0,    # 1秒
+            stack_mb=64.0,     # C/C++栈较大
+            cpu_time_ms=1000.0,
+        )
+
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
         exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
@@ -299,6 +410,16 @@ class C17O2JudgeClient(BaseJudgeClient):
 
 class C17O3JudgeClient(BaseJudgeClient):
     """C17 O3 优化"""
+
+    @property
+    def default_resource_limits(self) -> ResourceLimits:
+        """C/C++默认资源限制"""
+        return ResourceLimits(
+            memory_mb=128.0,   # 编译后程序内存
+            time_ms=1000.0,    # 1秒
+            stack_mb=64.0,     # C/C++栈较大
+            cpu_time_ms=1000.0,
+        )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
         exec_file = self._validate_exec_file(exec_file, work_dir)
@@ -327,6 +448,16 @@ class C17O3JudgeClient(BaseJudgeClient):
 class C23JudgeClient(BaseJudgeClient):
     """C23 无优化"""
 
+    @property
+    def default_resource_limits(self) -> ResourceLimits:
+        """C/C++默认资源限制"""
+        return ResourceLimits(
+            memory_mb=128.0,   # 编译后程序内存
+            time_ms=1000.0,    # 1秒
+            stack_mb=64.0,     # C/C++栈较大
+            cpu_time_ms=1000.0,
+        )
+
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
         exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
@@ -352,6 +483,16 @@ class C23JudgeClient(BaseJudgeClient):
 
 class C23O1JudgeClient(BaseJudgeClient):
     """C23 O1 优化"""
+
+    @property
+    def default_resource_limits(self) -> ResourceLimits:
+        """C/C++默认资源限制"""
+        return ResourceLimits(
+            memory_mb=128.0,   # 编译后程序内存
+            time_ms=1000.0,    # 1秒
+            stack_mb=64.0,     # C/C++栈较大
+            cpu_time_ms=1000.0,
+        )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
         exec_file = self._validate_exec_file(exec_file, work_dir)
@@ -380,6 +521,16 @@ class C23O1JudgeClient(BaseJudgeClient):
 class C23O2JudgeClient(BaseJudgeClient):
     """C23 O2 优化"""
 
+    @property
+    def default_resource_limits(self) -> ResourceLimits:
+        """C/C++默认资源限制"""
+        return ResourceLimits(
+            memory_mb=128.0,   # 编译后程序内存
+            time_ms=1000.0,    # 1秒
+            stack_mb=64.0,     # C/C++栈较大
+            cpu_time_ms=1000.0,
+        )
+
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
         exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
@@ -406,6 +557,16 @@ class C23O2JudgeClient(BaseJudgeClient):
 
 class C23O3JudgeClient(BaseJudgeClient):
     """C23 O3 优化"""
+
+    @property
+    def default_resource_limits(self) -> ResourceLimits:
+        """C/C++默认资源限制"""
+        return ResourceLimits(
+            memory_mb=128.0,   # 编译后程序内存
+            time_ms=1000.0,    # 1秒
+            stack_mb=64.0,     # C/C++栈较大
+            cpu_time_ms=1000.0,
+        )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
         exec_file = self._validate_exec_file(exec_file, work_dir)

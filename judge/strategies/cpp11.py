@@ -1,10 +1,21 @@
 # judge/strategies/cpp11.py
 from .base import BaseJudgeClient
+from ..utils.resource_limiter import ResourceLimits
 from typing import List, Optional
 
 
 class Cpp11JudgeClient(BaseJudgeClient):
     """C++11 无优化"""
+
+    @property
+    def default_resource_limits(self) -> ResourceLimits:
+        """C/C++默认资源限制"""
+        return ResourceLimits(
+            memory_mb=128.0,   # 编译后程序内存
+            time_ms=1000.0,    # 1秒
+            stack_mb=64.0,     # C/C++栈较大
+            cpu_time_ms=1000.0,
+        )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
         exec_file = self._validate_exec_file(exec_file, work_dir)
@@ -31,6 +42,16 @@ class Cpp11JudgeClient(BaseJudgeClient):
 
 class Cpp11O1JudgeClient(BaseJudgeClient):
     """C++11 O1 优化"""
+
+    @property
+    def default_resource_limits(self) -> ResourceLimits:
+        """C/C++默认资源限制"""
+        return ResourceLimits(
+            memory_mb=128.0,   # 编译后程序内存
+            time_ms=1000.0,    # 1秒
+            stack_mb=64.0,     # C/C++栈较大
+            cpu_time_ms=1000.0,
+        )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
         exec_file = self._validate_exec_file(exec_file, work_dir)
@@ -59,6 +80,16 @@ class Cpp11O1JudgeClient(BaseJudgeClient):
 class Cpp11O2JudgeClient(BaseJudgeClient):
     """C++11 O2 优化"""
 
+    @property
+    def default_resource_limits(self) -> ResourceLimits:
+        """C/C++默认资源限制"""
+        return ResourceLimits(
+            memory_mb=128.0,   # 编译后程序内存
+            time_ms=1000.0,    # 1秒
+            stack_mb=64.0,     # C/C++栈较大
+            cpu_time_ms=1000.0,
+        )
+
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
         exec_file = self._validate_exec_file(exec_file, work_dir)
         return [exec_file]
@@ -85,6 +116,16 @@ class Cpp11O2JudgeClient(BaseJudgeClient):
 
 class Cpp11O3JudgeClient(BaseJudgeClient):
     """C++11 O3 优化"""
+
+    @property
+    def default_resource_limits(self) -> ResourceLimits:
+        """C/C++默认资源限制"""
+        return ResourceLimits(
+            memory_mb=128.0,   # 编译后程序内存
+            time_ms=1000.0,    # 1秒
+            stack_mb=64.0,     # C/C++栈较大
+            cpu_time_ms=1000.0,
+        )
 
     def exec_command(self, exec_file: str, work_dir: str) -> List[str]:
         exec_file = self._validate_exec_file(exec_file, work_dir)
